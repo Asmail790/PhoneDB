@@ -12,5 +12,19 @@
   </ItemGroup>
 
 
+  <PropertyGroup>
+    <DartSassOutputStyle>compressed</DartSassOutputStyle>
+    <DartSassOutputStyle Condition="'$(Configuration)' == 'Debug'">expanded</DartSassOutputStyle>
+
+    <DartSassOutputLevel>verbose</DartSassOutputLevel>
+
+    <DartSassMessageLevel>High</DartSassMessageLevel>
+    <EnableDefaultSassItems>false</EnableDefaultSassItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+
+     <SassFile Include="**/*.scss" />
+  </ItemGroup>
 
 </Project>

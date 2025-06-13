@@ -53,5 +53,5 @@ CodeCoverage/
 
 
 # library
-wwwroot/lib/**/*.*
+wwwroot/lib
 planering.md

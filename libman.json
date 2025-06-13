@@ -20,6 +20,10 @@
     },{
       "library":"octicons@8.5.0",
       "destination": "wwwroot/lib/octicons"
+    },{
+      "library":"material-symbols@0.31.7",
+      "destination": "wwwroot/lib/material-symbols",
+      "provider": "jsdelivr"
     }
   ]
 }
