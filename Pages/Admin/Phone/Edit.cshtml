@@ -96,18 +96,19 @@
     }
 
 
-    async Task RenderHead(List<SectionType> unusedSectionTypes)
+    async Task RenderHead(int phoneId,List<SectionType> unusedSectionTypes)
     {
         <div class="d-flex flex-column justify-content-between gap-2">
             <div class="d-flex justify-content-between">
                 <h1 class="fs-3 fw-bold">Phone: @(Model.Phone.PhoneModel)</h1>
-                <a asp-route-id="@(Model.Phone.Id)" asp-page="./Delete"
+                <a asp-route-id="@(Model.Phone.Id)" asp-page="/Admin/Phone/Delete"
                    class="btn btn-outline-danger material-symbols-outlined  align-middle">delete</a>
             </div>
             <div class="d-flex justify-content-between">
                 <h2 class="fs-3 fw-bold">Sections</h2>
                 <div class="dropdown">
                     <button class="btn btn-outline-primary dropdown-toggle material-symbols-outlined  align-middle"
+                            disabled="@(!unusedSectionTypes.Any())"
                             type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         add
                     </button>
@@ -116,7 +117,9 @@
                         {
                             <li>
                                 <button class="dropdown-item" type="button">
-                                    <a asp-page="/Section/Create" asp-route-id="@(Model.Phone.Id)">
+                                    <a asp-page="/Admin/Phone/Section/Create"
+                                       asp-route-phoneId="@(Model.Phone.Id)"
+                                       asp-route-sectionTypeId="@(sectionType.Id)">
                                         @(sectionType.Name)
                                     </a>
                                 </button>
@@ -129,12 +132,12 @@
         </div>
     }
 
-    async Task RenderSectionHead(SectionType section)
+    async Task RenderSectionHead(DataBase.Section section)
     {
         <li class="list-group-item">
             <div class="row align-items-center">
                 <div class="col fs-3 fw-bold">
-                    @(section.Name)
+                    @(section.SectionType.Name)
 
                 </div>
                 <div class="col">
@@ -142,7 +145,7 @@
                 </div>
                 <div class="col">
                     <div class="d-flex justify-content-end gap-2">
-                        <a asp-page="/Section/Delete" asp-route-id="@(section.Id)"
+                        <a asp-page="/Admin/Phone/Section/Delete" asp-route-id="@(section.Id)"
                            class="btn btn-outline-danger material-symbols-outlined  align-middle">delete</a>
                     </div>
                 </div>
@@ -159,7 +162,7 @@
 <div clsas="container">
     <div class="d-flex flex-column gap-2">
 
-        @{ await RenderHead(Model.UnusedSectionTypes); }
+        @{ await RenderHead(Model.Phone.Id,Model.UnusedSectionTypes); }
 
         <div class="d-flex flex-column justify gap-5 w-100">
 
@@ -167,7 +170,7 @@
             {
                 <div class="card">
                     <ul class="list-group">
-                        @{ await RenderSectionHead(section.SectionType); }
+                        @{ await RenderSectionHead(section); }
                         <li class="list-group-item">
                             <div class="row align-items-center">
                                 <div class="col fw-bold">

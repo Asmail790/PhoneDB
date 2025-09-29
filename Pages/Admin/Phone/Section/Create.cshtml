@@ -1,0 +1,38 @@
+@page
+@model PhoneDB.Pages.Section.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="d-flex flex-column gap-2">
+
+    <div class="d-flex flex-row gap-2">
+
+        <h1 class="fs-3">Are you sure you want to create section <b class="fst-italic text-primary-emphasis">@(Model.SectionTypeName)</b> for phone model  <b class="fst-italic text-primary-emphasis">
+                @(Model.PhoneModel)
+            </b>
+        </h1>
+    </div>
+
+
+    <form method="post" class="d-flex flex-column gap-2">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+        <div>
+            <input hidden asp-for="PhoneId"/>
+            <input hidden asp-for="SectionTypeId"/>
+            <div class="d-flex flex-row justify-content-between">
+                <button class="btn btn-primary" type="submit">Create</button>
+                <a class="btn btn-danger">Cancel</a>
+            </div>
+        </div>
+
+
+    </form>
+
+    <div>
+    </div>
+</div>
+

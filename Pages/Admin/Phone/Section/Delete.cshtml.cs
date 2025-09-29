@@ -61,7 +61,7 @@ namespace PhoneDB.Pages.Section
                 return NotFound();
             }
 
-            return RedirectToPage("/Phone/Edit", new { id = section.Phone.Id });
+            return RedirectToPage("/Admin/Phone/Edit", new { phoneId = section.Phone.Id });
         }
     }
 }

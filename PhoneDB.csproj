@@ -28,4 +28,18 @@
      <SassFile Include="**/*.scss" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Pages\Admin\Phone\Section\Create.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Phone\Section\Delete.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Phone\Section\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
