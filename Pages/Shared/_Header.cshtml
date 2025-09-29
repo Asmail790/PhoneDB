@@ -1,0 +1,54 @@
+<header data-bs-theme="dark" class="sticky-top flex-shrink-0 flex-grow-0">
+    <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-page="/Index">PhoneDB</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-start gap-2"
+                 id="navbarSupportedContent">
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <a class="nav-link " asp-page="/Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="/Privacy">Privacy</a>
+                    </li>
+                </ul>
+
+
+                <div class="flex-grow-1"></div>
+                <form class="d-flex" role="search" method="get" asp-page="/Search">
+                    <input name="phoneModel" class="form-control me-2" type="search" placeholder="Search"
+                           aria-label="Search">
+
+                    <button class="btn btn-outline-primary" type="submit">
+                        <span class="material-symbols-outlined  align-middle ">search</span>
+                    </button>
+                </form>
+
+                <div class="flex-grow-1"></div>
+                <button class="btn btn-outline-primary">
+                    <span class="material-symbols-outlined  align-middle">person_add</span>
+                </button>
+
+                <button class="btn btn-outline-primary" type="submit">
+                    <span class="material-symbols-outlined  align-middle ">login</span>
+                </button>
+
+                <button class="btn btn-outline-primary align-middle material-symbols-outlined align-middle"
+                        id="theme-toggle" type="button">contrast
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </nav>
+</header>

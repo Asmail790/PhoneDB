@@ -1,0 +1,27 @@
+@model IReviewCard;
+
+@{
+    var phoneReview = Model.PhoneReview;
+    var reviewedBy = Model.isUser ? "Reviewed by you (Asmail)" : "Reviewed by Asmail";
+}
+
+<div class="card" class="w-100">
+    <div class="card-body">
+
+        <div class="w-100 d-flex flex-column ">
+
+            <h5 class="card-title  flex-grow-1">@(phoneReview.Title)</h5>
+            <p class="fs-3 flex-grow-1">
+
+                @foreach (var _ in Enumerable.Range(0, phoneReview.Score))
+                {
+                    <span class="align-middle material-symbols-outlined align-middle text-primary">
+                        Star_rate
+                    </span>
+                }
+            </p>
+        </div>
+        <p class="card-text">@(phoneReview.Description)</p>
+        <p class="card-text">@(reviewedBy)</p>
+    </div>
+</div>

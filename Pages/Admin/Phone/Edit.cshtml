@@ -1,0 +1,227 @@
+@page
+@using System.Diagnostics
+@using DataBase
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.EntityFrameworkCore.Diagnostics
+@model PhoneDB.Pages.Admin.Phone.EditModel
+@{
+    ViewData["Title"] = "Edit";
+
+
+    async Task RenderPropertyRows(List<Property> properties)
+    {
+        @foreach (var property in properties)
+        {
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col">
+                        @(property.PropertyType.Name)
+                    </div>
+                    <div class="col">
+                        @(property.PropertyType.TypeName)
+                    </div>
+                    <div class="col">
+                        @(property.Data.ToString())
+                    </div>
+                    <div class="col">
+                        <div class="d-flex justify-content-end gap-2">
+                            <a asp-page="@($"/Admin/Phone/Section/Property/Edit/{property.PropertyType.TypeName}")"
+                               asp-route-PropertyId="@(property.Id)"
+                               class="btn btn-outline-primary material-symbols-outlined  align-middle">edit</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    }
+
+
+    async Task RenderAddPropertyType(
+        string sectionName,
+        List<PropertyType> propertyTypes
+    )
+    {
+        <li class="list-group-item">
+            <div class="row align-items-center">
+                <div class="col fst-italic">
+                    Add new property to section 
+                    <bold class="fw-bold">
+                        
+                    @(sectionName).
+                    </bold>
+                </div>
+               
+                <div class="col">
+                    <div class="d-flex justify-content-end gap-2">
+
+
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle material-symbols-outlined  align-middle"
+                                    disabled="@(!propertyTypes.Any())"
+                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                add
+                            </button>
+                                
+                            <ul class="dropdown-menu">
+                                @foreach (var propertyType in propertyTypes)
+                                {
+                                    <li>
+                                        <button class="dropdown-item" type="button">
+                                            <a asp-page="@("/Admin/Phone/Section/Property/Create/String")"
+                                               asp-route-PropertyType="0"
+                                               class="">[@(propertyType.TypeName)] @(propertyType.Name)</a>
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+
+    async Task RenderEmptyRow()
+    {
+        <li class="list-group-item">
+            <div class="row align-items-center">
+                <div class="col fst-italic">
+                    There is no properties in this section.
+
+                </div>
+            </div>
+        </li>
+    }
+
+
+    async Task RenderHead(List<SectionType> unusedSectionTypes)
+    {
+        <div class="d-flex flex-column justify-content-between gap-2">
+            <div class="d-flex justify-content-between">
+                <h1 class="fs-3 fw-bold">Phone: @(Model.Phone.PhoneModel)</h1>
+                <a asp-route-id="@(Model.Phone.Id)" asp-page="./Delete"
+                   class="btn btn-outline-danger material-symbols-outlined  align-middle">delete</a>
+            </div>
+            <div class="d-flex justify-content-between">
+                <h2 class="fs-3 fw-bold">Sections</h2>
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle material-symbols-outlined  align-middle"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        add
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach (var sectionType in unusedSectionTypes)
+                        {
+                            <li>
+                                <button class="dropdown-item" type="button">
+                                    <a asp-page="/Section/Create" asp-route-id="@(Model.Phone.Id)">
+                                        @(sectionType.Name)
+                                    </a>
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+              
+            </div>
+        </div>
+    }
+
+    async Task RenderSectionHead(SectionType section)
+    {
+        <li class="list-group-item">
+            <div class="row align-items-center">
+                <div class="col fs-3 fw-bold">
+                    @(section.Name)
+
+                </div>
+                <div class="col">
+
+                </div>
+                <div class="col">
+                    <div class="d-flex justify-content-end gap-2">
+                        <a asp-page="/Section/Delete" asp-route-id="@(section.Id)"
+                           class="btn btn-outline-danger material-symbols-outlined  align-middle">delete</a>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+}
+
+
+
+
+
+
+<div clsas="container">
+    <div class="d-flex flex-column gap-2">
+
+        @{ await RenderHead(Model.UnusedSectionTypes); }
+
+        <div class="d-flex flex-column justify gap-5 w-100">
+
+            @foreach (var section in Model.Phone.Sections.OrderBy(section => section.SectionType.Name))
+            {
+                <div class="card">
+                    <ul class="list-group">
+                        @{ await RenderSectionHead(section.SectionType); }
+                        <li class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col fw-bold">
+                                    Property
+                                </div>
+                                <div class="col fw-bold">
+                                    Type
+                                </div>
+                                <div class="col fw-bold">
+                                    Value
+                                </div>
+                                <div class="col fw-bold text-end">
+                                    Actions
+                                </div>
+                            </div>
+                        </li>
+                        @{ await RenderPropertyRows(Model.PropertiesPerSection[section]); }
+                        @if (Model.Phone.Sections.Count.Equals(0))
+                        {
+                            await RenderEmptyRow();
+                        }
+
+                        @{ await RenderAddPropertyType(section.SectionType.Name,Model.UnusedPropertyTypesPerSection[section]); }
+                    </ul>
+                </div>
+            }
+        </div>
+
+    </div>
+
+    @*<form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Phone.Id"/>
+
+        @#1#for (var sectionIndex = 0; sectionIndex < Model.Phone.Sections.Count; sectionIndex++)
+            {
+                @for (var propertyIndex = 0; propertyIndex < Model.Phone.Sections[sectionIndex].Properties.Count; propertyIndex++)
+                {
+                    <div class="d-flex flex-col gap-2">
+                        <label asp-for="@(Model.Phone.Sections[@sectionIndex].Properties[@propertyIndex].Value)">
+                            @(Model.Phone.Sections[sectionIndex].Properties[propertyIndex].Key.Prop)
+                        </label>
+
+                        <input type="text"
+                               asp-for="@(Model.Phone.Sections[sectionIndex].Properties[propertyIndex].Value)"/>
+                    </div>
+                }
+            }
+            <p>sections: @(string.Join(", ", Model.Phone.Sections.Select(i => i.Properties.Count)))</p>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary"/>
+            </div>#1#
+    </form>*@
+
+
+</div>

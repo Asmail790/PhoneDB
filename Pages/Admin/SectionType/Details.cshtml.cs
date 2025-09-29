@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using DataBase;
+
+namespace PhoneDB.Pages.SectionType
+{
+    public class DetailsModel : PageModel
+    {
+        private readonly DataBase.ApplicationDbContext _context;
+
+        public DetailsModel(DataBase.ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public DataBase.SectionType SectionType { get; set; } = default!;
+
+        public async Task<IActionResult> OnGetAsync(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sectionname = await _context.SectionTypes.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (sectionname is not null)
+            {
+                SectionType = sectionname;
+
+                return Page();
+            }
+
+            return NotFound();
+        }
+    }
+}

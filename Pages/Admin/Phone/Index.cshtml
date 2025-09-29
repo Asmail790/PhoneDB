@@ -1,0 +1,41 @@
+@page
+@model PhoneDB.Admin.Pages.Phone.IndexModel;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            
+            <th>
+             Links
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @(Model.Phone.Count())
+    @foreach (var item in Model.Phone)
+    {
+        <tr>
+            <td>
+                @(item.PhoneModel)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-phoneId="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-phoneId="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-phoneId="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
