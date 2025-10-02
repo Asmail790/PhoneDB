@@ -46,9 +46,9 @@ public class SectionTypeComparer : IEqualityComparer<DataBase.SectionType>
 }
 public class EditModel : PageModel
 {
-    private readonly DataBase.ApplicationDbContext _context;
+    private readonly DataBase.PhoneDbContext _context;
 
-    public EditModel(DataBase.ApplicationDbContext context)
+    public EditModel(DataBase.PhoneDbContext context)
     {
         _context = context;
     }

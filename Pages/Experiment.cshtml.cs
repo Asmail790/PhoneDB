@@ -8,14 +8,14 @@ namespace PhoneDB.Pages;
 public class Experiment : PageModel
 {
     private ILoggerService _commentService;
-    private ApplicationDbContext _context;
+    private PhoneDbContext _context;
 
     private IDBFactory _dBFactory;
     private Func<string, IPaymentService> _paymentService;
     private ISaver _saver;
 
     public Experiment(ISaver saver, ILoggerService commentService, IDBFactory dbFactory,
-        Func<string, IPaymentService> payment, ApplicationDbContext context)
+        Func<string, IPaymentService> payment, PhoneDbContext context)
 
     {
         _commentService = commentService;

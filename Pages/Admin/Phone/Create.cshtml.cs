@@ -11,9 +11,9 @@ using DataBase;
 
 public class CreateModel : PageModel
 {
-    private readonly DataBase.ApplicationDbContext _context;
+    private readonly DataBase.PhoneDbContext _context;
 
-    public CreateModel(DataBase.ApplicationDbContext context)
+    public CreateModel(DataBase.PhoneDbContext context)
     {
         _context = context;
     }

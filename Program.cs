@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddDbContext<PhoneDbContext>();
 
 var app = builder.Build();
 

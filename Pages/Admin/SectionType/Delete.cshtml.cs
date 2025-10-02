@@ -11,9 +11,9 @@ namespace PhoneDB.Pages.SectionType
 {
     public class DeleteModel : PageModel
     {
-        private readonly DataBase.ApplicationDbContext _context;
+        private readonly DataBase.PhoneDbContext _context;
 
-        public DeleteModel(DataBase.ApplicationDbContext context)
+        public DeleteModel(DataBase.PhoneDbContext context)
         {
             _context = context;
         }

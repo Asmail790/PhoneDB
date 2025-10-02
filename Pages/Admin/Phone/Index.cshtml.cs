@@ -6,9 +6,9 @@ using DataBase;
 
     public class IndexModel : PageModel
     {
-        private readonly DataBase.ApplicationDbContext _context;
+        private readonly DataBase.PhoneDbContext _context;
 
-        public IndexModel(DataBase.ApplicationDbContext context)
+        public IndexModel(DataBase.PhoneDbContext context)
         {
             _context = context;
         }

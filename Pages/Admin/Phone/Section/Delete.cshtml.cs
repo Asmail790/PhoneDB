@@ -9,7 +9,7 @@ using DataBase;
 
 namespace PhoneDB.Pages.Section
 {
-    public class DeleteModel(DataBase.ApplicationDbContext context) : PageModel
+    public class DeleteModel(DataBase.PhoneDbContext context) : PageModel
     {
         [BindProperty] public DataBase.Section Section { get; set; } = default!;
 

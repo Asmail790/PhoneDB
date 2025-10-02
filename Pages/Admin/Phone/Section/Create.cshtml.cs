@@ -14,7 +14,7 @@ namespace PhoneDB.Pages.Section
 {
     public class CreateModel : PageModel
     {
-        private readonly DataBase.ApplicationDbContext _context;
+        private readonly DataBase.PhoneDbContext _context;
 
         [Required]
         [BindProperty(SupportsGet = true)]
@@ -28,7 +28,7 @@ namespace PhoneDB.Pages.Section
         public string SectionTypeName { get; set; } = null;
 
         public string? SectionDescription { get; set; } = null;
-        public CreateModel(DataBase.ApplicationDbContext context)
+        public CreateModel(DataBase.PhoneDbContext context)
         {
             _context = context;
         }
@@ -38,7 +38,7 @@ namespace PhoneDB.Pages.Section
             var phoneMatches = await _context
                 .Phones
                 .Where(phone => phone.Id == PhoneId)
-                .Select(p => new { p.Id, p.PhoneModel }).ToListAsync();
+                .Select(p => new { p.Id, PhoneModel = p.Name }).ToListAsync();
 
             if (phoneMatches.Count == 0)
             {
@@ -74,7 +74,7 @@ namespace PhoneDB.Pages.Section
             }
 
             var phone = phoneMatches[0];
-            PhoneModel = phone.PhoneModel;
+            PhoneModel = phone.Name;
 
             var sectionTypeMatches = await _context.SectionTypes.Where(item => item.Id == SectionTypeId).ToListAsync();
             var sectionType = sectionTypeMatches[0];
@@ -94,7 +94,7 @@ namespace PhoneDB.Pages.Section
             if (0 < sectionMatches.Count)
             {
                 ModelState.AddModelError(string.Empty,
-                    $"SectionType ${sectionType.Name} exist already in phoneModel ${phone.PhoneModel}");
+                    $"SectionType ${sectionType.Name} exist already in phoneModel ${phone.Name}");
             }
 
             if (!ModelState.IsValid)

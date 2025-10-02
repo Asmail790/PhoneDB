@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 public class PhoneDetail : PageModel
 {
-    public ApplicationDbContext _dbContext;
+    public PhoneDbContext _dbContext;
 
-    public PhoneDetail(ApplicationDbContext dbContext)
+    public PhoneDetail(PhoneDbContext dbContext)
 
     {
         _dbContext = dbContext;

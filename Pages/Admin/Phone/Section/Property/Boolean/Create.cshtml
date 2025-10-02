@@ -1,0 +1,69 @@
+@page
+@using DataBase
+@using PhoneDB.Pages.Section.Property
+@model PhoneDB.Pages.Section.Property.Boolean.Create
+
+@{
+    ViewData["Title"] = "Create Boolean";
+}
+
+@*<partial name="Shared/Development/_PropertyCreate" model="@(data)"/>*@
+<div class="d-flex flex-column gap-4">
+    <h1 class="fs-3">
+        <text>Are you sure you want to create a new property defined by property type with id
+            <b class="fst-italic text-primary-emphasis">@(Model.PropertyTypeId)</b>
+            for section with id <b class="fst-italic text-primary-emphasis">@(Model.SectionId)</b>?
+        </text>
+    </h1>
+
+
+    <ol class="list-group ">
+
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="d-flex gap-4 flex-column">
+                <div class="fw-bold">Property Type</div>
+                <p>Id: @(Utils.IfNullReturnUnknownString(Model?.PropertyType?.Id))</p>
+                <p>Name: @(Utils.IfNullReturnUnknownString(Model?.PropertyType?.Name)))</p>
+            </div>
+        </li>
+
+
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="d-flex gap-4 flex-column">
+
+                <div class="fw-bold">Section</div>
+                <p>Id: @(Utils.IfNullReturnUnknownString(Model?.Section?.Id))</p>
+                <p>Name: @(Utils.IfNullReturnUnknownString(Model?.Section?.SectionType?.Name))</p>
+                <p>Phone name: @(Utils.IfNullReturnUnknownString(Model?.Section?.Phone?.Name)) </p>
+                <p>Phone id: @(Utils.IfNullReturnUnknownString(Model?.Section?.Phone?.Id))</p>
+            </div>
+        </li>
+
+    </ol>
+
+
+    <form method="post" class="d-flex flex-column gap-2">
+        <input hidden asp-for="SectionId"/>
+        <input hidden asp-for="PropertyTypeId"/>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <input class="form-check-input" asp-for="Value"/>
+                <label class="form-check-label" asp-for="Value">
+                    Value
+                </label>
+            </li>
+        </ul>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-primary" type="submit">Create</button>
+            <a class="btn btn-danger">Cancel</a>
+        </div>
+        @if (!Model.ModelState.IsValid)
+        {
+            <div asp-validation-summary="All" class="text-danger"></div>
+        }
+    </form>
+
+    <div>
+    </div>
+</div>
+

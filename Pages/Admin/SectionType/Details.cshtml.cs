@@ -11,9 +11,9 @@ namespace PhoneDB.Pages.SectionType
 {
     public class DetailsModel : PageModel
     {
-        private readonly DataBase.ApplicationDbContext _context;
+        private readonly DataBase.PhoneDbContext _context;
 
-        public DetailsModel(DataBase.ApplicationDbContext context)
+        public DetailsModel(DataBase.PhoneDbContext context)
         {
             _context = context;
         }

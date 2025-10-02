@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 namespace DataBase;
 
-public class ApplicationDbContext : DbContext
+public class PhoneDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public PhoneDbContext(DbContextOptions<PhoneDbContext> options)
         : base(options)
     {
         
@@ -21,7 +21,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<DoublePropertyType> DoublePropertyTypes { get; set; }
     public DbSet<BooleanPropertyType> BooleanPropertyTypes { get; set; }
     public DbSet<DatePropertyType> DatePropertyTypes { get; set; }
-    
+    public DbSet<PropertyType> PropertyTypes { get; set; }
    
     public DbSet<SectionType> SectionTypes { get; set; }
 

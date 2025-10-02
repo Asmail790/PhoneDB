@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 public class ReviewsViewComponent : ViewComponent
 {
-    public ApplicationDbContext _dbContext;
+    public PhoneDbContext _dbContext;
 
-    public ReviewsViewComponent(ApplicationDbContext dbContext)
+    public ReviewsViewComponent(PhoneDbContext dbContext)
     {
         _dbContext = dbContext;
     }
