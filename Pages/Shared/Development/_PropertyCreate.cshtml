@@ -1,0 +1,11 @@
+@model (int? SectionId,int? PropertyTypeId, string? Value) 
+
+<environment include="Development">
+    <div class="border-2 border p-2 m-2  border-primary fs-6">
+        <p class="fs-2">Development Mode info</p>
+
+        <p>sectionId: "@Model.SectionId"</p>
+        <p>PropertyTypeId: "@Model.PropertyTypeId"</p>
+        <p>Value: "@Model.Value"</p>
+    </div>
+</environment>

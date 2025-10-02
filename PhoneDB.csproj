@@ -42,4 +42,8 @@
     <AdditionalFiles Include="Pages\Admin\Phone\Section\Index.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="phones.db" />
+  </ItemGroup>
+
 </Project>

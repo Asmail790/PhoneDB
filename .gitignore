@@ -55,3 +55,6 @@ CodeCoverage/
 # library
 wwwroot/lib
 planering.md
+
+# Sqlite file
+*.db
