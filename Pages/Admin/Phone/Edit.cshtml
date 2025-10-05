@@ -25,11 +25,11 @@
                     </div>
                     <div class="col">
                         <div class="d-flex justify-content-end gap-2">
-                            <a asp-page="@($"/Admin/Phone/Section/Property/{property.PropertyType.TypeName}/Edit")"
+                            <a asp-page="@($"/Admin/Property/{property.PropertyType.TypeName}/Edit")"
                                asp-route-PropertyId="@(property.Id)"
                                class="btn btn-outline-primary material-symbols-outlined  align-middle">edit</a>
                             
-                            <a asp-page="@($"/Admin/Phone/Section/Property/{property.PropertyType.TypeName}/Delete")"
+                            <a asp-page="@($"/Admin/Property/{property.PropertyType.TypeName}/Delete")"
                                asp-route-PropertyId="@(property.Id)"
                                class="btn btn-outline-primary material-symbols-outlined  align-middle">delete</a>
                         </div>
@@ -75,7 +75,7 @@
                                             <a 
                                                 asp-route-sectionId="@(section.Id)"
                                                 asp-route-propertyTypeId="@(propertyType.Id)"
-                                                asp-page="@($"/Admin/Phone/Section/Property/{propertyType.TypeName}/Create")"
+                                                asp-page="@($"/Admin/Property/{propertyType.TypeName}/Create")"
                                                
                                             >[@(propertyType.TypeName)] @(propertyType.Name)</a>
                                         </button>
@@ -123,7 +123,7 @@
                         {
                             <li>
                                 <button class="dropdown-item" type="button">
-                                    <a asp-page="/Admin/Phone/Section/Create"
+                                    <a asp-page="/Admin/Section/Create"
                                        asp-route-phoneId="@(Model.Phone.Id)"
                                        asp-route-sectionTypeId="@(sectionType.Id)">
                                         @(sectionType.Name)

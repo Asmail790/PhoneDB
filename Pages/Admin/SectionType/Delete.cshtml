@@ -1,5 +1,5 @@
 @page
-@model PhoneDB.Pages.SectionType.DeleteModel
+@model DeleteModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -7,22 +7,13 @@
 
 <h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to delete section type with id @(Model.SectionTypeId)</h3>
 <div>
-    <h4>SectionName</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SectionType.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SectionType.Description)
-        </dd>
-    </dl>
-    
     <form method="post">
-        <input type="hidden" asp-for="SectionType.Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="hidden" asp-for="SectionTypeId"/>
+        <input type="submit" value="Delete" class="btn btn-danger"/> |
         <a asp-page="./Index">Back to List</a>
+        <span asp-validation-for="SectionTypeId"></span>
     </form>
+    <div asp-validation-summary="All" class="text-danger"></div>
 </div>

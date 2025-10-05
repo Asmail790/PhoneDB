@@ -1,0 +1,25 @@
+@using Microsoft.AspNetCore.Html
+
+@model ( Func<object?, IHtmlContent> HiddenInputs, Func<object?, IHtmlContent> VisableInputs, bool isValid)
+
+
+@{
+    Func<DataBase.Property, IHtmlContent>  f =  @<p>@item.SectionId</p>;
+}
+
+<form method="post" class="d-flex flex-column gap-2">
+   @Model.HiddenInputs(null)
+    <ul class="list-group">
+        <li class="list-group-item">
+            @Model.VisableInputs(null)
+        </li>
+    </ul>
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-primary" type="submit">Create</button>
+        <a class="btn btn-danger">Cancel</a>
+    </div>
+    @if (!Model.isValid)
+    {
+        <div asp-validation-summary="All" class="text-danger"></div>
+    }
+</form>

@@ -3,7 +3,6 @@ using DataBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-
 namespace PhoneDB.Pages.Admin.Phone;
 
 public class PropertyTypeComparer : IEqualityComparer<PropertyType>
@@ -58,8 +57,8 @@ public class EditModel : PageModel
     public Dictionary<DataBase.Section, List<PropertyType>> UnusedPropertyTypesPerSection =
         new Dictionary<DataBase.Section, List<PropertyType>>(new SectionComparer());
 
-    public Dictionary<DataBase.Section, List<Property>> PropertiesPerSection =
-        new Dictionary<DataBase.Section, List<Property>>(new SectionComparer());
+    public Dictionary<DataBase.Section, List<DataBase.Property>> PropertiesPerSection =
+        new Dictionary<DataBase.Section, List<DataBase.Property>>(new SectionComparer());
 
     public List < DataBase.SectionType> UnusedSectionTypes =  new ();
 
@@ -84,9 +83,9 @@ public class EditModel : PageModel
         return unusedPropertyTypesPerSection;
     }
     
-    private static Dictionary<DataBase.Section, List<Property>> CalculatePropertiesPerSection(DataBase.Phone phone)
+    private static Dictionary<DataBase.Section, List<DataBase.Property>> CalculatePropertiesPerSection(DataBase.Phone phone)
     {
-        var propertiesPerSection = new Dictionary<DataBase.Section, List<Property>>(new SectionComparer());
+        var propertiesPerSection = new Dictionary<DataBase.Section, List<DataBase.Property>>(new SectionComparer());
         phone.Sections.ForEach(section =>
         {
             var allStringProperties = section.StringProperties.Select(item => item.AsProperty);
@@ -95,7 +94,7 @@ public class EditModel : PageModel
             var allLongProperties = section.LongProperties.Select(item => item.AsProperty);
             var allBooleanProperties = section.BooleanProperties.Select(item => item.AsProperty);
 
-            var allProperties = new List<Property>();
+            var allProperties = new List<DataBase.Property>();
             
             allProperties.AddRange( allStringProperties); 
             allProperties.AddRange( allDateProperties); 
@@ -104,7 +103,7 @@ public class EditModel : PageModel
             allProperties.AddRange( allBooleanProperties);
             
 
-            var pair = new KeyValuePair<DataBase.Section, List<Property>>(section, allProperties); 
+            var pair = new KeyValuePair<DataBase.Section, List<DataBase.Property>>(section, allProperties); 
           propertiesPerSection.Add(pair.Key,pair.Value);
         });
         

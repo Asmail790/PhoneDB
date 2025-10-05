@@ -59,18 +59,6 @@ public static class TaskExtension
     }
 }
 
-public static class Utils
-{
-    public static string IfNullReturnUnknownString(object? obj)
-    {
-        if (obj is null)
-        {
-            return "Unknown";
-        }
-        return obj.ToString();
-    }
-}
-
 public class PhoneDbLoadHelper : IPhoneDbServiceLoader
 {
     private PhoneDbContext _Context;

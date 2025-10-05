@@ -1,0 +1,28 @@
+@using PhoneDB.Utils
+@model (DataBase.PropertyType? PropertyType, DataBase.Section? Section)
+
+
+
+<ol class="list-group ">
+
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="d-flex gap-4 flex-column">
+            <div class="fw-bold">Property Type</div>
+            <p>Id: @(Utils.IfNullReturnUnknownString(Model.PropertyType?.Id))</p>
+            <p>Name: @(Utils.IfNullReturnUnknownString(Model.PropertyType?.Name)))</p>
+        </div>
+    </li>
+
+
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="d-flex gap-4 flex-column">
+
+            <div class="fw-bold">Section</div>
+            <p>Id: @(Utils.IfNullReturnUnknownString(Model.Section?.Id))</p>
+            <p>Name: @(Utils.IfNullReturnUnknownString(Model.Section?.SectionType?.Name))</p>
+            <p>Phone name: @(Utils.IfNullReturnUnknownString(Model.Section?.Phone?.Name)) </p>
+            <p>Phone id: @(Utils.IfNullReturnUnknownString(Model.Section?.Phone?.Id))</p>
+        </div>
+    </li>
+
+</ol>

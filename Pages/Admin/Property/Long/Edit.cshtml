@@ -1,0 +1,40 @@
+@page
+@using PhoneDB.Utils
+@model Edit
+
+<div class="d-flex flex-column gap-4">
+    <ol class="list-group ">
+
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="d-flex gap-4 flex-column">
+                <div class="fw-bold">Property</div>
+                <p>Id: @(Utils.IfNullReturnUnknownString(Model?.Property?.Id))</p>
+                <p>Type: @(Utils.IfNullReturnUnknownString(Model?.Property?.PropertyType.Name)))</p>
+            </div>
+        </li>
+    </ol>
+
+
+    <form method="post" class="d-flex flex-column gap-2">
+        <input hidden asp-for="PropertyId"/>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <input class="form-check-input" asp-for="Value"/>
+                <label class="form-check-label" asp-for="Value">
+                    Value
+                </label>
+            </li>
+        </ul>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-primary" type="submit">Update</button>
+            <a class="btn btn-danger">Cancel</a>
+        </div>
+        @if (!Model.ModelState.IsValid)
+        {
+            <div asp-validation-summary="All" class="text-danger"></div>
+        }
+    </form>
+
+    <div>
+    </div>
+</div>

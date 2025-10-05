@@ -34,16 +34,63 @@
     <_ContentIncludedByDefault Remove="Pages\Admin\Section\Details.cshtml" />
     <_ContentIncludedByDefault Remove="Pages\Admin\Section\Edit.cshtml" />
     <_ContentIncludedByDefault Remove="Pages\Admin\Section\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="Pages\Admin\Phone\Section\Create.cshtml" />
-    <AdditionalFiles Include="Pages\Admin\Phone\Section\Delete.cshtml" />
-    <AdditionalFiles Include="Pages\Admin\Phone\Section\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Phone\Section\Shared\_CreateInfoDialog.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Boolean\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Boolean\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Boolean\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Date\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Date\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Date\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Double\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Double\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Double\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Long\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Long\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Long\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Shared\_CreateRequestForm.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Shared\_CreateRequestInfo.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\Shared\_CreateRequestMessage.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\String\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\String\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\String\Edit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="phones.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Admin\PhoneImage\" />
+    <Folder Include="Pages\Admin\PropertyType\Boolean\" />
+    <Folder Include="Pages\Admin\PropertyType\Date\" />
+    <Folder Include="Pages\Admin\PropertyType\Double\" />
+    <Folder Include="Pages\Admin\PropertyType\Long\" />
+    <Folder Include="Pages\Admin\PropertyType\Shared\" />
+    <Folder Include="Pages\Admin\PropertyType\String\" />
+    <Folder Include="Pages\PhoneCompare\" />
+    <Folder Include="Pages\PhoneDetails\" />
+    <Folder Include="Pages\PhoneReviews\" />
+    <Folder Include="Pages\PhoneSearch\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Pages\Admin\Property\Boolean\Create.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Boolean\Delete.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Boolean\Edit.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Date\Create.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Date\Delete.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Date\Edit.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Double\Create.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Double\Delete.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Double\Edit.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Long\Create.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Long\Delete.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Long\Edit.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Shared\_CreateRequestInfo.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\Shared\_CreateRequestMessage.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\String\Create.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\String\Delete.cshtml" />
+    <AdditionalFiles Include="Pages\Admin\Property\String\Edit.cshtml" />
   </ItemGroup>
 
 </Project>

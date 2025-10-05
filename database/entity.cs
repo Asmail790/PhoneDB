@@ -1,6 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using PhoneDB.Pages.Admin.Phone.Section.Property.Shared;
+using PhoneDB.Pages.Admin.Property.Shared;
+using PhoneDB.Utils;
 
 namespace DataBase;
 
@@ -121,7 +124,7 @@ public class BooleanProperty : Property
 [Index(nameof(Name),IsUnique = true)]
 public class SectionType
 {
-    public string Name { get; set; }
+     public required string Name { get; set; }
     public string? Description { get; set; }
     public List<StringPropertyType> StringPropertyTypes { get; set; } = new List<StringPropertyType>();
     public List<LongPropertyType> LongPropertyTypes { get; set; } = new List<LongPropertyType>();

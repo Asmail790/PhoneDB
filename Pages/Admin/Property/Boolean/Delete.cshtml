@@ -1,0 +1,49 @@
+@page
+@using DataBase
+@model Delete
+
+@{
+    ViewData["Title"] = "Create Boolean";
+}
+
+@*<partial name="Shared/Development/_PropertyCreate" model="@(data)"/>*@
+<div class="d-flex flex-column gap-4">
+    <h1 class="fs-3">
+        <text>Are you sure you want to delete property defined by id
+            <b class="fst-italic text-primary-emphasis">@(Model.PropertyId)</b>
+        </text>
+    </h1>
+
+
+    <ol class="list-group ">
+
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="d-flex gap-4 flex-column">
+
+                <div class="fw-bold">Section</div>
+                <p>Id: @(global::PhoneDB.Utils.Utils.IfNullReturnUnknownString(Model?.Property?.Section.Id))</p>
+                <p>Name: @(global::PhoneDB.Utils.Utils.IfNullReturnUnknownString(Model?.Property?.Section.SectionType?.Name))</p>
+                <p>Phone name: @(global::PhoneDB.Utils.Utils.IfNullReturnUnknownString(Model?.Property?.Section.Phone?.Name)) </p>
+                <p>Phone id: @(global::PhoneDB.Utils.Utils.IfNullReturnUnknownString(Model?.Property?.Section.Phone?.Id))</p>
+            </div>
+        </li>
+
+    </ol>
+
+
+    <form method="post" class="d-flex flex-column gap-2">
+        <input hidden asp-for="PropertyId"/>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-primary" type="submit">Delete</button>
+            <a class="btn btn-danger">Cancel</a>
+        </div>
+        @if (!Model.ModelState.IsValid)
+        {
+            <div asp-validation-summary="All" class="text-danger"></div>
+        }
+    </form>
+
+    <div>
+    </div>
+</div>
+

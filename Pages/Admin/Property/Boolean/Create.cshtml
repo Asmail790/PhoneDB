@@ -1,0 +1,40 @@
+@page
+@using DataBase
+@using Microsoft.AspNetCore.Html
+@model Create
+
+@{
+    ViewData["Title"] = "Create Boolean";
+    PropertyType? propertyType = Model.PropertyType;
+    Func<object?, IHtmlContent> f1 = @<text>
+                                          <input hidden asp-for="SectionId"/>
+                                          <input hidden asp-for="PropertyTypeId"/>
+                                      </text>;
+    Func<object?, IHtmlContent> f2 = @<text>
+                                          <input class="form-check-input" asp-for="Value"/>
+                                          <label class="form-check-label" asp-for="Value">
+                                              Value
+                                          </label>
+                                      </text>;
+}
+
+@*<partial name="Shared/Development/_PropertyCreate" model="@(data)"/>*@
+<div class="d-flex flex-column gap-4">
+
+
+    @await Html.PartialAsync(
+        "/Pages/Admin/Property/Shared/_CreateRequestMessage.cshtml",
+        (Model.PropertyTypeId, Model.SectionId)
+    )
+
+
+    @await Html.PartialAsync("/Pages/Admin/Property/Shared/_CreateRequestInfo.cshtml",
+        (propertyType, Model.Section)
+    )
+
+
+    @await Html.PartialAsync("/Pages/Admin/Property/Shared/_CreateRequestForm.cshtml",
+        (f1, f2, Model.ModelState.IsValid))
+
+
+</div>

@@ -1,16 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using DataBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using DataBase;
 
-namespace PhoneDB.Pages.SectionType
+namespace PhoneDB.Pages.Admin.SectionType
 {
     public class DeleteModel : PageModel
     {
+        [Required, BindProperty(SupportsGet = true)]
+        public int? SectionTypeId { get; set; }
+
+        public DataBase.SectionType? SectionType { get; set; } = null;
+
         private readonly DataBase.PhoneDbContext _context;
 
         public DeleteModel(DataBase.PhoneDbContext context)
@@ -18,45 +20,56 @@ namespace PhoneDB.Pages.SectionType
             _context = context;
         }
 
-        [BindProperty]
-        public DataBase.SectionType SectionType { get; set; } = default!;
-
-        public async Task<IActionResult> OnGetAsync(int id)
+        private async Task ValidateRequest()
         {
-          
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return;
             }
 
-            var sectionname = await _context.SectionTypes.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (sectionname is not null)
+            if (this.SectionTypeId is null)
             {
-                SectionType = sectionname;
+                throw new InvalidOperationException();
+            }
 
+            int sectionTypeId = SectionTypeId.Value;
+
+            var sectionType = await _context.SectionTypes.Where(item => item.Id.Equals(sectionTypeId)).ToListAsync()
+                .FirstOrNull();
+            if (sectionType is null)
+            {
+                ModelState.AddModelError(nameof(SectionTypeId), $"SectionTypeId dont exist {sectionTypeId}.");
+            }
+
+            SectionType = sectionType;
+        }
+
+
+        public async Task<IActionResult> OnGetAsync()
+        {
+            await ValidateRequest();
+            return Page();
+        }
+
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            await ValidateRequest();
+            if (!ModelState.IsValid)
+            {
                 return Page();
             }
 
-            return NotFound();
-        }
-
-        public async Task<IActionResult> OnPostAsync(string id)
-        {
-            if (id == null)
+            if (SectionType is null)
             {
-                return NotFound();
+                throw new InvalidOperationException();
             }
 
-            var sectionname = await _context.SectionTypes.FindAsync(id);
-            if (sectionname != null)
-            {
-                SectionType = sectionname;
-                _context.SectionTypes.Remove(SectionType);
-                await _context.SaveChangesAsync();
-            }
+            _context.SectionTypes.Remove(SectionType);
 
-            return RedirectToPage("./Index");
+            return await Utils.Utils.SaveAndRedirectIfSuccessful(
+                this, _context, ModelState, RedirectToPage("./Index")
+            );
         }
     }
 }
