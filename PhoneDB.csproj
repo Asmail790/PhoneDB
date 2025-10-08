@@ -53,6 +53,7 @@
     <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\String\Create.cshtml" />
     <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\String\Delete.cshtml" />
     <_ContentIncludedByDefault Remove="Pages\Admin\Section\Property\String\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\PhoneImage\X.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,13 +61,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Admin\PhoneImage\" />
-    <Folder Include="Pages\Admin\PropertyType\Boolean\" />
-    <Folder Include="Pages\Admin\PropertyType\Date\" />
-    <Folder Include="Pages\Admin\PropertyType\Double\" />
-    <Folder Include="Pages\Admin\PropertyType\Long\" />
-    <Folder Include="Pages\Admin\PropertyType\Shared\" />
-    <Folder Include="Pages\Admin\PropertyType\String\" />
     <Folder Include="Pages\PhoneCompare\" />
     <Folder Include="Pages\PhoneDetails\" />
     <Folder Include="Pages\PhoneReviews\" />

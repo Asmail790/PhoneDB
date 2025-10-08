@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataBase;
+using PhoneDB.Pages.Admin.PropertyType.Boolean;
 
 namespace PhoneDB.Pages.SectionType
 {
@@ -14,63 +16,49 @@ namespace PhoneDB.Pages.SectionType
     {
         private readonly DataBase.PhoneDbContext _context;
 
+        
+        [Required,BindProperty(SupportsGet = true) ] public int? SectionTypeId { get; set; }
+        public DataBase.SectionType? SectionType { get; set; }
+
         public EditModel(DataBase.PhoneDbContext context)
         {
             _context = context;
         }
 
-        [BindProperty]
-        public DataBase.SectionType SectionType { get; set; } = default!;
-
-        public async Task<IActionResult> OnGetAsync(int id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var sectionname =  await _context.SectionTypes.FirstOrDefaultAsync(m => m.Id == id);
-            if (sectionname == null)
-            {
-                return NotFound();
-            }
-            SectionType = sectionname;
-            return Page();
-        }
-
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        private async Task ValidateRequest()
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                return;
             }
 
-            _context.Attach(SectionType).State = EntityState.Modified;
-
-            try
+            if (SectionTypeId is null)
             {
-                await _context.SaveChangesAsync();
+                throw new InvalidOperationException();
             }
-            catch (DbUpdateConcurrencyException)
+            var sectionTypeId = SectionTypeId.Value;
+            var sectionType = await _context.SectionTypes
+                .Include(sectionType => sectionType.BooleanPropertyTypes)
+                .Include(sectionType => sectionType.DatePropertyTypes)
+                .Include(sectionType => sectionType.StringPropertyTypes)
+                .Include(sectionType => sectionType.DoublePropertyTypes)
+                .Include(sectionType => sectionType.LongPropertyTypes)
+                .Where(section => section.Id.Equals(sectionTypeId)).ToListAsync().FirstOrNull();
+            if (sectionType is null)
             {
-                if (!SectionNameExists(SectionType.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                ModelState.AddModelError(nameof(EditModel.SectionTypeId), $"{nameof(EditModel.SectionTypeId)} is not database.");
             }
 
-            return RedirectToPage("./Index");
+            SectionType = sectionType;
+
         }
 
-        private bool SectionNameExists(int id)
+       
+
+        public async Task<IActionResult> OnGetAsync()
         {
-            return _context.SectionTypes.Any(e => e.Id == id);
+            await ValidateRequest();
+            return Page();
         }
     }
 }

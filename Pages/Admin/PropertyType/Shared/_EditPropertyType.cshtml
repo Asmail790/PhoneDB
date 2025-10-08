@@ -1,0 +1,30 @@
+@using Microsoft.AspNetCore.Html
+@model  (Func<object?,IHtmlContent> VisableInputs, Func<object?,IHtmlContent> HiddenInputs,DataBase.SectionType? SectionType, int? propertyTypeId) 
+
+<div>
+    @if (Model.propertyTypeId is not null)
+    {
+        <h1 class="fs-3"> Editing property type defined by id @(Model.propertyTypeId)  </h1>
+    }
+    <h3 class="fs-3 ">Information</h3>
+    <div class="list-group">
+        <li class="list-group-item">
+            Section
+            name: @(Utils.Utils.IfNullReturnUnknownString(Model.SectionType?.Name))
+        </li>
+        <li class="list-group-item">
+            Section
+            id: @(Utils.Utils.IfNullReturnUnknownString(Model.SectionType?.Id))
+        </li>
+    </div>
+    <form method="post" class="d-flex flex-column gap-2">
+        @Model.VisableInputs(null)
+        @Model.HiddenInputs(null)
+        <button class="btn btn-primary" type="submit">Edit</button>
+        <a
+            class="btn btn-primary"
+            asp-page="/Admin/SectionType/Edit"
+            asp-route-sectionTypeId="@(Model.SectionType?.Id)">Back</a>
+        <div asp-validation-summary="All" class="text-danger"></div>
+    </form>
+</div>

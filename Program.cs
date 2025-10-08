@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using DataBase;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +25,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
 app.UseHttpsRedirection();
 
 app.UseRouting();
@@ -34,5 +34,6 @@ app.UseAuthorization();
 app.MapStaticAssets();
 app.MapRazorPages()
     .WithStaticAssets();
+
 
 app.Run();

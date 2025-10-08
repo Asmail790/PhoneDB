@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Html
+@model ( Func<object?,IHtmlContent> HiddenInputs, DataBase.SectionType? SectionType, int? propertyTypeId) 
+
+<div>
+    <h1>Are sure you want to delete property type defined by id @(Model.propertyTypeId)?</h1>
+    <h3 class="fs-3 " >Information</h3>
+    <div class="list-group">
+        <li class="list-group-item">
+            Section name: @(Utils.Utils.IfNullReturnUnknownString(Model.SectionType?.Name))
+        </li>
+        <li class="list-group-item">
+            Section id: @(Utils.Utils.IfNullReturnUnknownString(Model.SectionType?.Id))
+        </li>
+    </div>
+    <form method="post">
+        @Model.HiddenInputs(null)
+        <button class="btn btn-danger" type="submit">Delete</button>
+        <a 
+            class="btn btn-primary" 
+            asp-page="/Admin/SectionType/Edit"
+            asp-route-sectionTypeId="@(Model.SectionType?.Id)" >Back</a>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        </form>
+</div>

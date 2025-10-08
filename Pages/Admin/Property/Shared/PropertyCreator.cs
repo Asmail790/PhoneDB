@@ -8,7 +8,7 @@ namespace PhoneDB.Pages.Admin.Phone.Section.Property.Shared;
 
 
 
-public abstract class PropertyCreator<T0,T1>:PageModel  where T1:PropertyType
+public abstract class PropertyCreator<T0,T1>:PageModel  where T1:DataBase.PropertyType
 {
     [Required]
     [BindProperty(SupportsGet = true)]

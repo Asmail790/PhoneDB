@@ -24,6 +24,7 @@ public static class Utils
         {
             modelState.AddModelError(string.Empty, errorMessage);
         }
+        
 
         if (!modelState.IsValid)
         {
@@ -36,7 +37,7 @@ public static class Utils
 
     public static string IfNullReturnUnknownString(object? obj)
     {
-        if (obj is null)
+        if (obj is  null)
         {
             return "Unknown";
         }

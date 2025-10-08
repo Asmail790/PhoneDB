@@ -28,7 +28,7 @@
                             <a asp-page="@($"/Admin/Property/{property.PropertyType.TypeName}/Edit")"
                                asp-route-PropertyId="@(property.Id)"
                                class="btn btn-outline-primary material-symbols-outlined  align-middle">edit</a>
-                            
+
                             <a asp-page="@($"/Admin/Property/{property.PropertyType.TypeName}/Delete")"
                                asp-route-PropertyId="@(property.Id)"
                                class="btn btn-outline-primary material-symbols-outlined  align-middle">delete</a>
@@ -71,14 +71,12 @@
                                 @foreach (var propertyType in propertyTypes)
                                 {
                                     <li>
-                                        <button class="dropdown-item" type="button">
-                                            <a 
-                                                asp-route-sectionId="@(section.Id)"
-                                                asp-route-propertyTypeId="@(propertyType.Id)"
-                                                asp-page="@($"/Admin/Property/{propertyType.TypeName}/Create")"
-                                               
-                                            >[@(propertyType.TypeName)] @(propertyType.Name)</a>
-                                        </button>
+                                        <a class="dropdown-item"
+                                           asp-route-sectionId="@(section.Id)"
+                                           asp-route-propertyTypeId="@(propertyType.Id)"
+                                           asp-page="@($"/Admin/Property/{propertyType.TypeName}/Create")"
+
+                                        >[@(propertyType.TypeName)] @(propertyType.Name)</a>
                                     </li>
                                 }
                             </ul>

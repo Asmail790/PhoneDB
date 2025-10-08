@@ -47,7 +47,7 @@ public interface IPoneDbGetSingleItemQuery
     Task<Phone?> GetPhone(int id);
     Task<Section?> GetSection(int id);
     Task<SectionType?> GetSectionType(int id);
-    Task<PhoneImage?> GetImage(int id);
+    Task<PhoneImageURL?> GetImage(int id);
     Task<PhoneReview?> GetReview(int id);
 
     Task<PropertyType?> GetPropertyType(PropertyTypeEnum type, int id);

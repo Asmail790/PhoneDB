@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using PhoneDB.Pages.Admin.Phone.Section.Property.Shared;
-
 namespace PhoneDB.Pages.Admin.Property.Shared;
 
 public static class PropertyUtils
@@ -22,7 +21,7 @@ public static class PropertyUtils
         Func<int, Task<T1?>> getPropertyTypeById,
         Func<(int PropertyTypeId, int sectionId), Task<bool>> isPropertyTypeNotIncludedInSectionType,
         Func<(int PropertyTypeId, int sectionId), Task<bool>> propertyWithSameInNameAndPropertyExist
-    ) where T1 : PropertyType
+    ) where T1 : DataBase.PropertyType
     {
         if (!pageModel.ModelState.IsValid)
         {
@@ -45,7 +44,7 @@ public static class PropertyUtils
 
         if (section is null)
         {
-            pageModel.ModelState.AddModelError(nameof(PropertyCreator<T0, PropertyType>.SectionId),
+            pageModel.ModelState.AddModelError(nameof(PropertyCreator<T0, DataBase.PropertyType>.SectionId),
                 "sectionId not found");
             return;
         }
@@ -59,7 +58,7 @@ public static class PropertyUtils
 
         if (propertyType is null)
         {
-            pageModel.ModelState.AddModelError(nameof(PropertyCreator<T0, PropertyType>.SectionId),
+            pageModel.ModelState.AddModelError(nameof(PropertyCreator<T0, DataBase.PropertyType>.SectionId),
                 "propertyId not found");
             return;
         }
@@ -76,7 +75,7 @@ public static class PropertyUtils
 
         if (propertyTypeIsNotIncludedInSectionType)
         {
-            pageModel.ModelState.AddModelError(nameof(PropertyCreator<T0, PropertyType>.SectionId),
+            pageModel.ModelState.AddModelError(nameof(PropertyCreator<T0, DataBase.PropertyType>.SectionId),
                 "property type Id can not be inserted ");
             return;
         }
@@ -89,7 +88,7 @@ public static class PropertyUtils
 
         if (propertyTypeUsedInSectionExist)
         {
-            pageModel.ModelState.AddModelError(nameof(PropertyCreator<T0, PropertyType>.PropertyTypeId),
+            pageModel.ModelState.AddModelError(nameof(PropertyCreator<T0, DataBase.PropertyType>.PropertyTypeId),
                 "A property with same propertyType exist already in section database");
         }
     }
@@ -143,7 +142,7 @@ public static class PropertyUtils
         Func<int, Task<T1?>> getPropertyTypeById,
         Func<(int PropertyTypeId, int sectionId), Task<bool>> isPropertyTypeNotIncludedInSectionType,
         Func<(int PropertyTypeId, int sectionId), Task<bool>> isPropertyWithSameInNameAndPropertyExist
-    ) where T1 : PropertyType => () => PropertyUtils.ValidateAddPropertyRequest(pageModel, context, getPropertyTypeById,
+    ) where T1 : DataBase.PropertyType => () => PropertyUtils.ValidateAddPropertyRequest(pageModel, context, getPropertyTypeById,
         isPropertyTypeNotIncludedInSectionType, isPropertyWithSameInNameAndPropertyExist);
 
     public static Func<Task> CreatePropertyDeleteRequestValidator<T>(

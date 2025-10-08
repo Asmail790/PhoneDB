@@ -1,9 +1,10 @@
 using System.Collections.Immutable;
-using DataBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+
 namespace PhoneDB.Pages.Admin.Phone;
+using DataBase;
 
 public class PropertyTypeComparer : IEqualityComparer<PropertyType>
 {
@@ -45,17 +46,17 @@ public class SectionTypeComparer : IEqualityComparer<DataBase.SectionType>
 }
 public class EditModel : PageModel
 {
-    private readonly DataBase.PhoneDbContext _context;
+    private readonly PhoneDbContext _context;
 
-    public EditModel(DataBase.PhoneDbContext context)
+    public EditModel(PhoneDbContext context)
     {
         _context = context;
     }
 
     [BindProperty] public DataBase.Phone Phone { get; set; } = default!;
 
-    public Dictionary<DataBase.Section, List<PropertyType>> UnusedPropertyTypesPerSection =
-        new Dictionary<DataBase.Section, List<PropertyType>>(new SectionComparer());
+    public Dictionary<DataBase.Section, List<DataBase.PropertyType>> UnusedPropertyTypesPerSection =
+        new Dictionary<DataBase.Section, List<DataBase.PropertyType>>(new SectionComparer());
 
     public Dictionary<DataBase.Section, List<DataBase.Property>> PropertiesPerSection =
         new Dictionary<DataBase.Section, List<DataBase.Property>>(new SectionComparer());

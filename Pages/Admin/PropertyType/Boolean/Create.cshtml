@@ -1,0 +1,24 @@
+@page
+@using Microsoft.AspNetCore.Html
+@model PhoneDB.Pages.Admin.PropertyType.Boolean.Create
+
+@{
+    Func<object?, IHtmlContent> hiddenInputs = @<input hidden="hidden" asp-for="SectionTypeId"/>;
+
+
+    Func<object?, IHtmlContent> visibleInputs = @<div class="d-flex flex-column gap-2">
+        <div>
+            <label class="form-label" asp-for="Name"></label>
+            <input class="form-control" asp-for="Name"/>
+        </div>
+        <div>
+            <label class="form-label" asp-for="Description"></label>
+            <input class="form-control" asp-for="Description"/>
+        </div>
+    </div>;
+}
+
+
+<partial name="/Pages/Admin/PropertyType/Shared/_CreatePropertyType.cshtml"
+         model="((visibleInputs,hiddenInputs,Model.SectionType))"
+/>

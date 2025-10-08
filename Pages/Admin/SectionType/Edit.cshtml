@@ -1,31 +1,102 @@
 @page
+@using DataBase
 @model PhoneDB.Pages.SectionType.EditModel
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+@if (Model.ModelState.IsValid)
+{
+    if (Model.SectionType is null)
+    {
+        throw new InvalidOperationException();
+    }
 
-<h4>SectionName</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="SectionType.Id" />
-            <div class="form-group">
-                
-                <label asp-for="SectionType.Description" class="control-label"></label>
-                <input asp-for="SectionType.Description" class="form-control" />
-                <span asp-validation-for="SectionType.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <h1 class="fs-1">Section: @(Model.SectionType.Name)</h1>
+    <h4 class="fs-4">Description: @(Model.SectionType.Description)</h4>
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Property</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+            <th scope="col">
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @{
+            List<DataBase.PropertyType> items =
+            [
+                ..Model.SectionType.BooleanPropertyTypes,
+                ..Model.SectionType.StringPropertyTypes,
+                ..Model.SectionType.DatePropertyTypes,
+                ..Model.SectionType.DoublePropertyTypes,
+                ..Model.SectionType.LongPropertyTypes,
+            ];
+        }
+        @foreach (var propertyType in items)
+        {
+            <tr>
+                <th scope="row">@(propertyType.Name)</th>
+                <td>@(propertyType.TypeName)</td>
+                <td>@(propertyType.Description)</td>
+                <td>
+                    @{
+                        <a asp-page=@($"/Admin/PropertyType/{propertyType.TypeName}/Delete") class="text-danger"
+                           asp-route-PropertyTypeId="@(propertyType.Id)">Delete</a>
+                        <a asp-page=@($"/Admin/PropertyType/{propertyType.TypeName}/Edit")
+                           asp-route-PropertyTypeId="@(propertyType.Id)">Edit</a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+
+    <div class="dropdown">
+        <button
+            class="btn btn-outline-primary dropdown-toggle material-symbols-outlined  align-middle"
+            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            add
+        </button>
+
+        <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item" asp-route-sectionTypeId=@(Model.SectionType.Id)
+                   asp-page="/Admin/PropertyType/Boolean/Create">Create boolean property type</a>
+            </li>
+            <li>
+                <a class="dropdown-item" asp-route-sectionTypeId=@(Model.SectionType.Id)
+                   asp-page="/Admin/PropertyType/String/Create">Create string property type</a>
+            </li>
+            <li>
+                <a class="dropdown-item" asp-route-sectionTypeId=@(Model.SectionType.Id)
+                   asp-page="/Admin/PropertyType/Date/Create">Create date property type</a>
+            </li>
+            <li>
+                <a class="dropdown-item" asp-route-sectionTypeId=@(Model.SectionType.Id)
+                   asp-page="/Admin/PropertyType/Double/Create">Create double property type</a>
+            </li>
+            <li>
+                <a class="dropdown-item" asp-route-sectionTypeId=@(Model.SectionType.Id)
+                   asp-page="/Admin/PropertyType/Long/Create">Create long property type</a>
+            </li>
+
+        </ul>
     </div>
-</div>
+}
+else
+{
+    <h1 class="fs-3">Error</h1>
+    <div class="alert alert-danger" role="alert">
+        <div class="text-danger" asp-validation-summary="All"></div>
+    </div>
+}
 
 <div>
     <a asp-page="./Index">Back to List</a>

@@ -1,0 +1,12 @@
+@page
+@using Microsoft.AspNetCore.Html
+@model PhoneDB.Pages.Admin.PropertyType.Double.Delete
+
+@{
+    Func<object?, IHtmlContent> hiddenInputs = @<input hidden="hidden" asp-for="PropertyTypeId"/>;
+}
+
+
+<partial name="/Pages/Admin/PropertyType/Shared/_DeletePropertyType.cshtml"
+         model="((hiddenInputs,Model.PropertyType?.SectionType,Model.PropertyTypeId))"
+/>
