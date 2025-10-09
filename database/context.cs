@@ -14,6 +14,12 @@ public class PhoneDbContext : DbContext
         optionsBuilder.UseSqlite("DataSource=phones.db");
         base.OnConfiguring(optionsBuilder);
     }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<DateProperty>().Property(e => e.DateTimeOffsetData).HasConversion<long>();
+        modelBuilder.Entity<PhoneReview>().Property(e => e.CreateDate).HasConversion<long>();
+    }
 
     public DbSet<Phone> Phones { get; set; }
     public DbSet<StringPropertyType> StringPropertyTypes { get; set; }

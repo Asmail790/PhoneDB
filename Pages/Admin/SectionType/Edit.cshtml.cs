@@ -18,6 +18,8 @@ namespace PhoneDB.Pages.SectionType
 
         
         [Required,BindProperty(SupportsGet = true) ] public int? SectionTypeId { get; set; }
+        
+    
         public DataBase.SectionType? SectionType { get; set; }
 
         public EditModel(DataBase.PhoneDbContext context)
@@ -50,10 +52,9 @@ namespace PhoneDB.Pages.SectionType
             }
 
             SectionType = sectionType;
+            
 
         }
-
-       
 
         public async Task<IActionResult> OnGetAsync()
         {

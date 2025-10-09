@@ -1,0 +1,108 @@
+@page
+@model PhoneDB.Pages.Admin.PhoneReview.Index
+
+<!-- /Pages/Admin/PhoneReview/Index.cshtml -->
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<form method="get">
+    <h1>Search parameters</h1>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="UserId"></label>
+        <input class="form-control" asp-for="UserId">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="PhoneId"></label>
+        <input class="form-control" asp-for="PhoneId">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="PhoneName"></label>
+        <input class="form-control" asp-for="PhoneName">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="UserName"></label>
+        <input class="form-control" asp-for="UserName">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+
+
+<h1>Result</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>User</th>
+        <th>Phone</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var review in Model.Reviews)
+    {
+        <tr>
+            <td>@review.User</td>
+            <td>@review.Phone.Name</td>
+            <td>
+              
+                <a asp-page="./Detail" 
+                   
+                   asp-route-PhoneReviewId="@review.Id">Details</a>
+                <a asp-page="./Delete" class="text-danger" asp-route-PhoneReviewId="@review.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div>
+    @{
+        var width = 4;
+        var itemsBackward = Math.Max(Model.PageIndex-width,0);
+        var itemsForward = Math.Min(Model.PageIndex+width,Model.TotalPages);
+        
+    }
+    @{
+        var routeParams = new Dictionary<string, string?>()
+        {
+            
+            { "PhoneName", Model?.PhoneName},
+            { "PageSize", Model?.PageSize.ToString() },
+            { "UserName", Model?.UserName },
+            { "PhoneId", Model?.PhoneId.ToString() },
+        };
+    }
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            @if (Model.PageIndex > 0)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-page="./Index" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(Model.PageIndex - 1)">Previous</a>
+                </li>
+            }
+            @for(var i = itemsBackward; i < itemsForward; i++) 
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+
+                    @{
+                        var i1 = i;
+                    }
+                    <a class="page-link" asp-page="./Index" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(i1)">@(i1)</a>
+                </li>
+            }
+            
+            @if (Model.TotalPages > Model.PageIndex + 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-page="./Index" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(Model.PageIndex + 1)">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

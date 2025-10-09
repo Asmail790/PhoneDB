@@ -1,0 +1,24 @@
+@page
+@model PhoneDB.Pages.Admin.Index
+
+
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1>Welcome to the Admin Dashboard</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <a asp-page="./Phone/Index" class="btn btn-primary">Manage Phones</a>
+        </div>
+        <div class="col-md-4">
+            <a asp-page="./SectionType/Index" class="btn btn-secondary">Manage Section Types</a>
+        </div>
+        <div class="col-md-4">
+            <a asp-page="./PhoneReview/Index" class="btn btn-success">Manage Phone Reviews</a>
+        </div>
+    </div>
+</div>

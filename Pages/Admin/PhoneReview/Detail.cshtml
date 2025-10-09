@@ -1,0 +1,31 @@
+@page
+@model PhoneDB.Pages.Admin.PhoneReview.Detail
+
+
+@if (!Model.ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="text-danger"></div>
+}
+else
+{
+    var item = Model.Review;
+    if (item is null)
+    {
+        throw new InvalidOperationException();
+    }
+
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@item.Title</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">@(item.Score)/5</h6>
+            <p class="card-text">@item.Description</p>
+            <a asp-page="./Index" asp-route-PhoneId="@(item.PhoneId)" class="card-link">All phone review
+                for @(item.Phone.Name)</a>
+            <a asp-page="./Index" asp-route-UserId="@(item.User)" class="card-link">All phone review by
+                user @(item.User)</a>
+            
+            <a asp-page="./Delete" class="text-danger" asp-route-PhoneReviewId="@item.Id">Delete review</a>
+        </div>
+    </div>
+}

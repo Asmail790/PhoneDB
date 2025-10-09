@@ -162,7 +162,11 @@
     <div class="d-flex flex-column gap-2">
 
         @{ await RenderHead(Model.Phone.Id, Model.UnusedSectionTypes); }
-
+        <a class="text-info"
+           asp-page="./EditPhoneName"
+           asp-route-PhoneId="@(Model.Phone.Id)">Edit phone name</a>
+        
+        
         <div class="d-flex flex-column justify gap-5 w-100">
 
             @foreach (var section in Model.Phone.Sections.OrderBy(section => section.SectionType.Name))

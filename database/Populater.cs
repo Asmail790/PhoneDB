@@ -275,7 +275,9 @@ public static class Populater
             User = userId,
             Description = description,
             Title = title,
-            Score = score
+            Score = score,
+            CreateDate = new DateTimeOffset()
+            
         };
 
         context.PhoneReviews.Add(review);
@@ -310,9 +312,62 @@ public static class Populater
         {
             foreach (var phone in context.Phones)
             {
-                /*CreateReview(context, phone, 3, "good", "better", 0);
-                CreateReview(context, phone, 3, "good", "better", 1);
-                CreateReview(context, phone, 3, "good", "better", 4);*/
+                CreateReview(context, phone, 4, """
+                                                I recently purchased this phone and I must say, it's been an absolute pleasure to use. The design is sleek and modern, and the build quality feels solid. The camera takes great photos, even in low light conditions, which is a huge plus for me.
+                                                
+                                                The battery life is fantastic too. It lasts all day without needing a recharge, and I love that it has fast charging capabilities. The phone runs smoothly, with quick app launches and a seamless user interface.
+                                                
+                                                Overall, this phone has exceeded my expectations. If you're looking for a reliable and feature-rich device, I highly recommend giving this one a try!
+                                                
+                                                """, "Great Phone Experience!", 0);
+                CreateReview(context, phone, 5, """
+                                                I've been using this phone for about a month now and I'm really impressed with its performance. The display is sharp and vibrant, making it easy on the eyes. The battery life is quite good too, lasting all day without needing to plug in.
+                                                
+                                                The phone is also very user-friendly, with intuitive controls that make navigation easy. It has great connectivity options, including a fast 5G network and Bluetooth for wireless accessories. The camera quality is decent, capturing clear photos and videos.
+                                                
+                                                What I like most about this phone is its durability. It's well-built and seems to withstand drops and bumps without any issues. The price point is also quite reasonable compared to similar devices on the market.
+                                                
+                                                Overall, I'm very satisfied with my purchase. If you're looking for a reliable and budget-friendly smartphone, this one definitely stands out!
+                                                
+                                                """, "Excellent Value for Money", 7);
+                CreateReview(context, phone, 1, """
+                                                So, I recently purchased the *UltimatePhone 12 Pro Max*—a device that promised to revolutionize my mobile experience. Let me tell you, it’s a 
+                                                masterclass in how not to make a phone.  
+                                                
+                                                **Battery Life: A Disappointment**  
+                                                The battery life is *so* short, it’s like the phone was designed by a toddler with a sugar rush. I used it for 6 hours straight (scrolling TikTok, 
+                                                texting, and streaming a cat video) and it died mid-video. The “all-day battery” claim is a lie. Oh, and the charging port? It’s so flimsy, I 
+                                                accidentally dropped the phone while charging and now it won’t charge at all.  
+                                                
+                                                **Performance: A Slow, Clunky Mess**  
+                                                This phone feels like it’s from 2012. Apps lag, freeze, and crash constantly. Even basic tasks like opening the camera or switching between apps feel 
+                                                like waiting for a slow elevator. The “high-end processor” is a joke—my old phone from 2018 runs smoother.  
+                                                
+                                                **Camera: A Disaster**  
+                                                The camera? Let’s just say it’s not fit for a Instagram influencer. Photos are blurry, colors are off, and low-light shots are like looking through a 
+                                                foggy window. I tried to take a sunset photo, and it came out looking like a cloudy day. The front camera is equally bad—selfies look like they were 
+                                                taken with a flashlight.  
+                                                
+                                                **Build Quality: Cheap and Flimsy**  
+                                                The phone feels like it’s made of cardboard and plastic. The frame is so cheap, I’m worried it’ll break if I accidentally drop it. The back panel is 
+                                                glossy and scratches easily. And the buttons? They feel like they’re about to fall off.  
+                                                
+                                                **Software: A Clunky, Bug-Prone Mess**  
+                                                The OS is a nightmare. It’s riddled with glitches, crashes, and weird UI bugs. The “smart assistant” is useless—it doesn’t understand basic commands. 
+                                                And the updates? They’re so buggy, I’ve had to factory reset twice.  
+                                                
+                                                **Final Verdict: A Waste of Money**  
+                                                If you’re looking for a phone that’s reliable, fast, and actually works, the *UltimatePhone 12 Pro Max* is not for you. It’s a scam disguised as a 
+                                                gadget. Save your money and go for something that doesn’t feel like it’s trying to break your soul.  
+                                                
+                                                **Rating: 1/10**  
+                                                *Why? Because even the stars are tired of this phone.* 
+                                                
+                                                """, "Phone Review: The \"Ultimate\" Experience (Spoiler: It’s Not)", 6);
+                
+                CreateReview(context, phone, 3, "good", "1 better", 1);
+                
+                CreateReview(context, phone, 3, "good", "4 better", 4);
             }
 
             await context.SaveChangesAsync();

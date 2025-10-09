@@ -180,6 +180,9 @@ public class PhoneReview
     public required string Description { get; set; }
 
     public required string Title { get; set; }
+
+     public DateTimeOffset CreateDate { get; set; } 
+    
 }
 
 public class PhoneImageURL

@@ -1,0 +1,26 @@
+@page
+@model PhoneDB.Pages.Admin.PhoneReview.Delete
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+@if (Model.ModelState.IsValid)
+{
+    if (Model.PhoneReview is null)
+    {
+        throw new InvalidOperationException();
+    }
+
+    <h3>Are you sure you want to delete the review for phone @(Model.PhoneReview.Phone.Name) from
+        user @(Model.PhoneReview.User)?</h3>
+}
+<form method="post">
+    <input type="hidden" asp-for="PhoneReviewId"/>
+    <input type="submit" value="Delete" class="btn btn-danger"/> |
+    <a asp-page="./Index">Back to List</a>
+    <div asp-validation-summary="All" class="text-danger"></div>
+</form>
+    

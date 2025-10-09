@@ -1,0 +1,39 @@
+@page
+@model Edit
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Section name and description</h1>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <input type="hidden" asp-for="SectionTypeId"/>
+
+
+                <div class="form-group mb-3">
+
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control"/>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary  me-3"/>
+                    <a class="btn btn-primary" asp-page="./Edit" asp-route-SectionTypeId="@(Model.SectionTypeId)">
+                        Back</a>
+                </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
