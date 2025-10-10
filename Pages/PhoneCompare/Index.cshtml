@@ -1,0 +1,376 @@
+@page
+@using System.Collections.Immutable
+@using DataBase
+@using PhoneDB.Pages.Admin.Phone
+@model PhoneDB.Pages.PhoneCompare.Index
+
+
+
+@{
+    List<(T0? Property0, T0? Property1, PropertyType propertyType)> SetUpLeftAndRightProperties<T0>(
+        List<T0> leftSideProperties, List<T0> rightSideProperties
+    )
+        where T0 : Property
+    {
+        var leftMap = leftSideProperties.ToDictionary(item => item.PropertyType.Id);
+        var rightMap = rightSideProperties.ToDictionary(item => item.PropertyType.Id);
+
+        var allPropertiesInLeft =
+            leftSideProperties.Select(item => item.PropertyType).ToHashSet(new PropertyTypeComparer()).ToImmutableHashSet();
+
+        var allPropertiesInRight =
+            rightSideProperties.Select(item => item.PropertyType).ToHashSet(new PropertyTypeComparer()).ToImmutableHashSet();
+
+        var both = allPropertiesInLeft.Intersect(allPropertiesInRight);
+        var onlyInLeft = allPropertiesInLeft.Except(both);
+        var onlyInRight = allPropertiesInRight.Except(both);
+
+        IList<(T0? Property0, T0? Property1, PropertyType PropertyType)> leftPart =
+            onlyInLeft.Select(item => leftMap[item.Id]).Select<T0, (T0? a, T0? b, PropertyType c)>(item => (item, null, item.PropertyType)).ToList();
+
+        IList<(T0? Property0, T0? Property1, PropertyType PropertyType)> rightPart =
+            onlyInRight.Select(item => rightMap[item.Id]).Select<T0, (T0? a, T0? b, PropertyType c)>(item => (null, item, item.PropertyType)).ToList();
+
+        List<(T0? Property0, T0? Property1, PropertyType PropertyType)> bothPart = both.Select(item =>
+        {
+            (T0? Property0, T0? Property1, PropertyType PropertyType) returnValue = (leftMap[item.Id], rightMap[item.Id], item);
+            return returnValue;
+        }).ToList();
+
+        var itemsPart = new List<(T0? Property0, T0? Property1, PropertyType PropertyType)>();
+        itemsPart.AddRange(leftPart);
+        itemsPart.AddRange(rightPart);
+        itemsPart.AddRange(bothPart);
+        itemsPart = itemsPart.OrderBy(item => item.PropertyType.Name).ToList();
+
+        return itemsPart;
+    }
+
+    void RenderPhone(Phone phoneLeft, Phone phoneRight)
+    {
+        var allSectionTypeInLeft =
+            phoneLeft.Sections.Select(item => item.SectionType).ToHashSet(new SectionTypeComparer()).ToImmutableHashSet(new SectionTypeComparer());
+
+        var allSectionTypeInRight =
+            phoneRight.Sections.Select(item => item.SectionType).ToHashSet(new SectionTypeComparer()).ToImmutableHashSet(new SectionTypeComparer());
+
+        var both = allSectionTypeInLeft.Intersect(allSectionTypeInRight);
+        var onlyInLeft = allSectionTypeInLeft.Except(both);
+        var onlyInRight = allSectionTypeInRight.Except(both);
+
+        var leftMap = phoneLeft.Sections.ToDictionary(item => item.SectionType.Id);
+        var rightMap = phoneRight.Sections.ToDictionary(item => item.SectionType.Id);
+
+
+        IList<(Section? a, Section? b, SectionType c)> itemsPart0 =
+            onlyInLeft.Select<SectionType, (Section? a, Section? b, SectionType c)>(item => (leftMap[item.Id], null, item)).ToList();
+
+        IList<(Section? a, Section? b, SectionType c)> itemsPart1 =
+            onlyInRight.Select<SectionType, (Section? a, Section? b, SectionType c)>(item => (null, rightMap[item.Id], item)).ToList();
+
+        List<(Section? a, Section? b, SectionType c)> itemsPart2 = both.Select(item =>
+        {
+            (Section? a, Section? b, SectionType c) f = (leftMap[item.Id], rightMap[item.Id], item);
+            return f;
+        }).ToList();
+
+
+        var itemsPart = new List<(Section? a, Section? b, SectionType c)>();
+        itemsPart.AddRange(itemsPart0);
+        itemsPart.AddRange(itemsPart1);
+        itemsPart.AddRange(itemsPart2);
+
+        itemsPart = itemsPart.OrderBy(item => item.c.Name).ToList();
+        <div class="d-flex gap-4 flex-column">
+            
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        @(phoneLeft.Name)
+                    </div>
+                    <div class="col">
+                        @(phoneRight.Name)
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        
+        @foreach (var item in itemsPart)
+        {
+            RenderSection(item.a, item.b, item.c);
+        }
+        </div>
+    }
+
+    void RenderStringPropertyItem(StringProperty? a, StringProperty? b, StringPropertyType c)
+    {
+        <div class="row">
+            <div class="col">
+                @(c.Name)
+            </div>
+            <div class="col">
+                @(a?.StringData ?? "")
+            </div>
+            <div class="col">
+                @(b?.StringData ?? "")
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    }
+
+    void RenderLongPropertyItem(LongProperty? a, LongProperty? b, LongPropertyType c)
+    {
+        <div class="row">
+            <div class="col">
+                @(c.Name)
+            </div>
+            <div class="col">
+                @(a?.LongData is not null ? a.LongData.ToString() : "")
+            </div>
+            <div class="col">
+                @(b?.LongData is not null ? b.LongData.ToString() : "")
+            </div>
+            <div class="col">
+                @if (a?.LongData is not null && b?.LongData is not null)
+                {
+                    var valueA = a.LongData;
+                    var valueB = b.LongData;
+
+                    @(valueA - valueB)
+                }
+            </div>
+        </div>
+    }
+
+    void RenderDoublePropertyItem(DoubleProperty? a, DoubleProperty? b, DoublePropertyType c)
+    {
+        <div class="row">
+            <div class="col">
+                @(c.Name)
+            </div>
+            <div class="col">
+                @(a?.DoubleData is not null ? a.DoubleData.ToString("e2") : "")
+            </div>
+            <div class="col">
+                @(b?.DoubleData is not null ? b.DoubleData.ToString("e2") : "")
+            </div>
+            <div class="col">
+                @if (a?.DoubleData is not null && b?.DoubleData is not null)
+                {
+                    var valueA = a.DoubleData;
+                    var valueB = b.DoubleData;
+                    var difference = valueA - valueB;
+                    @(difference.ToString("e2"))
+                }
+            </div>
+        </div>
+    }
+
+
+    void RenderDatePropertyItem(DateProperty? a, DateProperty? b, DatePropertyType c)
+    {
+        <div class="row">
+            <div class="col">
+                @(c.Name)
+            </div>
+            <div class="col">
+                @if (a?.DateTimeOffsetData is not null)
+                {
+                    var item = a.DateTimeOffsetData;
+                    @($"{item.Year},{item.Month},{item.Day}")
+                }
+            </div>
+            <div class="col">
+                @if (b?.DateTimeOffsetData is not null)
+                {
+                    var item = b.DateTimeOffsetData;
+                    @($"{item.Year},{item.Month},{item.Day}")
+                }
+            </div>
+            <div class="col">
+                @if (a?.DateTimeOffsetData is not null && b?.DateTimeOffsetData is not null)
+                {
+                    var valueA = a.DateTimeOffsetData;
+                    var valueB = b.DateTimeOffsetData;
+                    @($" {valueA.Year - valueB.Year} years")
+                }
+            </div>
+        </div>
+    }
+
+    void RenderBooleanPropertyItem(BooleanProperty? a, BooleanProperty? b, BooleanPropertyType c)
+    {
+        <div class="row">
+            <div class="col">
+                @(c.Name)
+            </div>
+            <div class="col">
+                @(a?.BoolData is not null ? a.BoolData.ToString() : "")
+            </div>
+            <div class="col">
+                @(b?.BoolData is not null ? b.BoolData.ToString() : "")
+            </div>
+            <div class="col">
+                @if (a?.BoolData is not null && b?.BoolData is not null)
+                {
+                    var valueA = a.BoolData;
+                    var valueB = b.BoolData;
+                    var phoneAName = a.Section.Phone.Name;
+                    var phoneBName = b.Section.Phone.Name;
+
+                    @if (valueA && !valueB)
+                    {
+                        @($"Only in {phoneAName}")
+                    }
+                    else if (!valueA && valueB)
+                    {
+                        @($"Only in {phoneBName}")
+                    }
+                    else if (!valueA && !valueB)
+                    {
+                        @("Neither")
+                    }
+                    else if (valueA && valueB)
+                    {
+                        @("Both")
+                    }
+                }
+            </div>
+        </div>
+    }
+
+    void RenderPropertyItemSwitch(Property? a, Property? b, PropertyType c)
+    {
+        <li class="list-group-item">
+            @switch ((a, b, c))
+            {
+                case (BooleanProperty prop0, BooleanProperty prop1, BooleanPropertyType type): RenderBooleanPropertyItem(prop0, prop1, type); break;
+                case (null, BooleanProperty prop1, BooleanPropertyType type): RenderBooleanPropertyItem(null, prop1, type); break;
+                case (BooleanProperty prop0, null, BooleanPropertyType type): RenderBooleanPropertyItem(prop0, null, type); break;
+                case (null, null, BooleanPropertyType type): RenderBooleanPropertyItem(null, null, type); break;
+
+                case (StringProperty prop0, StringProperty prop1, StringPropertyType type): RenderStringPropertyItem(prop0, prop1, type); break;
+                case (null, StringProperty prop1, StringPropertyType type): RenderStringPropertyItem(null, prop1, type); break;
+                case (StringProperty prop0, null, StringPropertyType type): RenderStringPropertyItem(prop0, null, type); break;
+                case (null, null, StringPropertyType type): RenderStringPropertyItem(null, null, type); break;
+
+                case (LongProperty prop0, LongProperty prop1, LongPropertyType type): RenderLongPropertyItem(prop0, prop1, type); break;
+                case (null, LongProperty prop1, LongPropertyType type): RenderLongPropertyItem(null, prop1, type); break;
+                case (LongProperty prop0, null, LongPropertyType type): RenderLongPropertyItem(prop0, null, type); break;
+                case (null, null, LongPropertyType type): RenderLongPropertyItem(null, null, type); break;
+
+                case (DoubleProperty prop0, DoubleProperty prop1, DoublePropertyType type): RenderDoublePropertyItem(prop0, prop1, type); break;
+                case (null, DoubleProperty prop1, DoublePropertyType type): RenderDoublePropertyItem(null, prop1, type); break;
+                case (DoubleProperty prop0, null, DoublePropertyType type): RenderDoublePropertyItem(prop0, null, type); break;
+                case (null, null, DoublePropertyType type): RenderDoublePropertyItem(null, null, type); break;
+
+                case (DateProperty prop0, DateProperty prop1, DatePropertyType type): RenderDatePropertyItem(prop0, prop1, type); break;
+                case (null, DateProperty prop1, DatePropertyType type): RenderDatePropertyItem(null, prop1, type); break;
+                case (DateProperty prop0, null, DatePropertyType type): RenderDatePropertyItem(prop0, null, type); break;
+                case (null, null, DatePropertyType type): RenderDatePropertyItem(null, null, type); break;
+
+                default: throw new Exception();
+            }
+        </li>
+    }
+
+    void RenderSection(DataBase.Section? a, DataBase.Section? b, SectionType c)
+    {
+        var sectionAisEmpty = (a?.BooleanProperties?.Count ?? 0) + (a?.StringProperties?.Count ?? 0) + (a?.DoubleProperties?.Count ?? 0) + (a?.LongProperties?.Count ?? 0) + (a?.DateProperties?.Count ?? 0) == 0;
+        var sectionBisEmpty = (b?.BooleanProperties?.Count ?? 0) + (b?.StringProperties?.Count ?? 0) + (b?.DoubleProperties?.Count ?? 0) + (b?.LongProperties?.Count ?? 0) + (b?.DateProperties?.Count ?? 0) == 0;
+
+        if (sectionAisEmpty && sectionBisEmpty)
+        {
+            return;
+        }
+
+        <div>
+            <h1>Section: @c.Name</h1>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                          Property
+                        </div>
+                        <div class="col">
+                            left Phone
+                        </div>
+                        <div class="col">
+                            Right Phone 
+                        </div>
+                        
+                        <div class="col">
+                            diffrence 
+                        </div>
+                    </div>
+                </li>
+
+                @if (a is not null && b is not null)
+                {
+                    var properties = new List<(Property?, Property?, PropertyType)>();
+                    properties.AddRange(SetUpLeftAndRightProperties(a.BooleanProperties.Select(item => item.AsProperty).ToList(), b.BooleanProperties.Select(item => item.AsProperty).ToList()));
+                    properties.AddRange(SetUpLeftAndRightProperties(a.StringProperties.Select(item => item.AsProperty).ToList(), b.StringProperties.Select(item => item.AsProperty).ToList()));
+                    properties.AddRange(SetUpLeftAndRightProperties(a.DateProperties.Select(item => item.AsProperty).ToList(), b.DateProperties.Select(item => item.AsProperty).ToList()));
+                    properties.AddRange(SetUpLeftAndRightProperties(a.LongProperties.Select(item => item.AsProperty).ToList(), b.LongProperties.Select(item => item.AsProperty).ToList()));
+                    properties.AddRange(SetUpLeftAndRightProperties(a.DoubleProperties.Select(item => item.AsProperty).ToList(), b.DoubleProperties.Select(item => item.AsProperty).ToList()));
+                    properties = properties.OrderBy(item => item.Item3.Name).ToList();
+                    @foreach (var property in properties)
+                    {
+                        RenderPropertyItemSwitch(property.Item1, property.Item2, property.Item3);
+                    }
+                }
+
+                else if (b is not null)
+                {
+                    var properties = new List<Property>();
+                    properties.AddRange(b.BooleanProperties);
+                    properties.AddRange(b.DoubleProperties);
+                    properties.AddRange(b.StringProperties);
+                    properties.AddRange(b.DateProperties);
+                    properties.AddRange(b.LongProperties);
+                    properties = properties.OrderBy(item => item.PropertyType.Name).ToList();
+
+                    @foreach (var property in properties)
+                    {
+                        RenderPropertyItemSwitch(null, property, property.PropertyType);
+                    }
+                }
+                else if (a is not null)
+                {
+                    var properties = new List<Property>();
+                    properties.AddRange(a.BooleanProperties);
+                    properties.AddRange(a.DoubleProperties);
+                    properties.AddRange(a.StringProperties);
+                    properties.AddRange(a.DateProperties);
+                    properties.AddRange(a.LongProperties);
+                    properties = properties.OrderBy(item => item.PropertyType.Name).ToList();
+
+                    @foreach (var property in properties)
+                    {
+                        RenderPropertyItemSwitch(property, null, property.PropertyType);
+                    }
+                }
+            </ul>
+
+        </div>
+    }
+}
+
+
+@if (Model.ModelState.IsValid)
+{
+    if (Model.Phone0 is null || Model.Phone1 is null)
+    {
+        throw new Exception();
+    }
+
+    RenderPhone(Model.Phone0, Model.Phone1);
+}
+else
+{
+    <h1>error</h1>
+    <div asp-validation-summary="All" class="text-danger"></div>
+}

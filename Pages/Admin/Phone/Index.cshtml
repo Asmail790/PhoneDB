@@ -1,12 +1,26 @@
 @page
-@model PhoneDB.Admin.Pages.Phone.IndexModel;
+@model IndexModel;
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
+<form method="get">
+    <h1>Search parameters</h1>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="PhoneId"></label>
+        <input class="form-control" asp-for="PhoneId">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="PhoneName"></label>
+        <input class="form-control" asp-for="PhoneName">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<h1>Index</h1>
 <p>
     <a asp-page="Create">Create New</a>
 </p>
@@ -14,7 +28,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                @Html.DisplayNameFor(model => model.Phones)
             </th>
             
             <th>
@@ -23,8 +37,7 @@
         </tr>
     </thead>
     <tbody>
-    @(Model.Phone.Count())
-    @foreach (var item in Model.Phone)
+    @foreach (var item in Model.Phones)
     {
         <tr>
             <td>
@@ -32,10 +45,49 @@
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-phoneId="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-phoneId="@item.Id">Details</a> |
                 <a asp-page="./Delete" asp-route-phoneId="@item.Id">Delete</a>
             </td>
         </tr>
     }
     </tbody>
 </table>
+
+@{
+    var width = 4;
+    var itemsBackward = Math.Max(Model.PageIndex-width,0);
+    var itemsForward = Math.Min(Model.PageIndex+width,Model.TotalPages);
+    var routeParams = new Dictionary<string, string?>()
+    {
+            
+        { "PhoneName", Model?.PhoneName},
+        { "PageSize", Model?.PageSize.ToString() },
+        { "PhoneId", Model?.PhoneId.ToString() },
+    };
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        @if (Model.PageIndex > 0)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-page="./Index" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(Model.PageIndex - 1)">Previous</a>
+            </li>
+        }
+        @for(var i = itemsBackward; i < itemsForward; i++) 
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+
+                @{
+                    var i1 = i;
+                }
+                <a class="page-link" asp-page="./Index" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(i1)">@(i1)</a>
+            </li>
+        }
+            
+        @if (Model.TotalPages > Model.PageIndex + 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-page="./Index" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(Model.PageIndex + 1)">Next</a>
+            </li>
+        }
+    </ul>
+</nav>

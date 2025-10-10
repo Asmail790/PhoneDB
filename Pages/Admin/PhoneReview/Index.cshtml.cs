@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PhoneDB.Pages.Admin.PhoneReview;
 
+
 public class Index : PageModel
 {
     [BindProperty(SupportsGet = true)] public int PageIndex { get; set; } = 0;

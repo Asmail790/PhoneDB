@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PhoneDB.Pages.Admin.Phone;
 
 using System;
@@ -12,6 +14,8 @@ using DataBase;
 public class CreateModel : PageModel
 {
     private readonly DataBase.PhoneDbContext _context;
+    
+    [Required,BindProperty(SupportsGet = true)] public string? Name { get; set; } 
 
     public CreateModel(DataBase.PhoneDbContext context)
     {
@@ -22,9 +26,7 @@ public class CreateModel : PageModel
     {
         return Page();
     }
-
-    [BindProperty] public DataBase.Phone Phone { get; set; } = default!;
-
+    
     // For more information, see https://aka.ms/RazorPagesCRUD.
     public async Task<IActionResult> OnPostAsync()
     {
@@ -33,7 +35,18 @@ public class CreateModel : PageModel
             return Page();
         }
 
-        _context.Phones.Add(Phone);
+        if (Name is null)
+        {
+            throw new Exception();
+        }
+
+        var phone = new Phone()
+        {
+            Name = Name
+        };
+        
+
+        _context.Phones.Add(phone);
         await _context.SaveChangesAsync();
 
         return RedirectToPage("./Index");

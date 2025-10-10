@@ -61,7 +61,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\PhoneCompare\" />
+    <Folder Include="host\" />
     <Folder Include="Pages\PhoneDetails\" />
     <Folder Include="Pages\PhoneReviews\" />
     <Folder Include="Pages\PhoneSearch\" />

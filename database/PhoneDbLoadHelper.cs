@@ -61,11 +61,11 @@ public static class TaskExtension
 
 public class PhoneDbLoadHelper : IPhoneDbServiceLoader
 {
-    private PhoneDbContext _Context;
+    private readonly PhoneDbContext _context;
 
     public PhoneDbLoadHelper(PhoneDbContext context)
     {
-        this._Context = context;
+        this._context = context;
     }
 
     /*public Task<Section?> GetSection(int sectionId)
@@ -83,7 +83,7 @@ public class PhoneDbLoadHelper : IPhoneDbServiceLoader
     */
     public async Task<bool> LoadPhonePropsIntoContext(int phoneId)
     {
-        var phone = await _Context.Phones
+        var phone = await _context.Phones
             // Images
             .Include(phone => phone.Images)
 
@@ -118,42 +118,42 @@ public class PhoneDbLoadHelper : IPhoneDbServiceLoader
       */
     public async Task LoadAllTypesIntoContext()
     {
-        await _Context.BooleanPropertyTypes.LoadAsync();
-        await _Context.DoublePropertyTypes.LoadAsync();
-        await _Context.LongPropertyTypes.LoadAsync();
-        await _Context.StringPropertyTypes.LoadAsync();
-        await _Context.DatePropertyTypes.LoadAsync();
-        await _Context.SectionTypes.LoadAsync();
+        await _context.BooleanPropertyTypes.LoadAsync();
+        await _context.DoublePropertyTypes.LoadAsync();
+        await _context.LongPropertyTypes.LoadAsync();
+        await _context.StringPropertyTypes.LoadAsync();
+        await _context.DatePropertyTypes.LoadAsync();
+        await _context.SectionTypes.LoadAsync();
     }
 
     public Task LoadAllBooleanPropertyTypesIntoContext()
     {
-        return _Context.BooleanPropertyTypes.ToListAsync();
+        return _context.BooleanPropertyTypes.ToListAsync();
     }
 
     public Task LoadAllStringPropertyTypesIntoContext()
     {
-        return _Context.StringPropertyTypes.ToListAsync();
+        return _context.StringPropertyTypes.ToListAsync();
     }
 
     public Task LoadAllDoublePropertyTypesIntoContext()
     {
-        return _Context.DoublePropertyTypes.ToListAsync();
+        return _context.DoublePropertyTypes.ToListAsync();
     }
 
     public Task LoadAllDatePropertyTypesIntoContext()
     {
-        return _Context.DatePropertyTypes.ToListAsync();
+        return _context.DatePropertyTypes.ToListAsync();
     }
 
     public Task LoadAllLongPropertyTypesIntoContext()
     {
-        return _Context.LongPropertyTypes.ToListAsync();
+        return _context.LongPropertyTypes.ToListAsync();
     }
 
     public Task LoadAllSectionTypesIntoContext()
     {
-        return _Context.SectionTypes.ToListAsync();
+        return _context.SectionTypes.ToListAsync();
     }
 
 
