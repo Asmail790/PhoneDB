@@ -1,0 +1,66 @@
+@page
+@model PhoneDB.Pages.PhoneReview.Index
+
+<div class="row row-cols-1 g-3">
+    
+<div asp-validation-summary="All" class="text-danger"></div>
+@if (Model.Phone is not null)
+{
+    <a 
+        asp-page="/PhoneDetail"
+        asp-route-phoneId=@(Model.Phone.Id)>
+        
+    <h1 class="col">
+        
+        @Model.Phone.Name Reviews
+    </h1>
+    </a>
+}
+
+<div class="col row g-3">
+    @foreach (var review in Model.Reviews)
+    {
+        <div class=" col-md-12">
+            <partial name="_ReviewCard" model="@new  ReviewCard{ PhoneReview = review, isUser = false }"/>
+        </div>
+    }
+</div>
+@{
+    var width = 4;
+    var itemsBackward = Math.Max(Model.PageIndex-width,0);
+    var itemsForward = Math.Min(Model.PageIndex+width,Model.TotalPages);
+    var routeParams = new Dictionary<string, string?>()
+    {
+        { "PhoneId", Model?.PhoneId.ToString() },
+    };
+}
+
+
+<nav class="col">
+    <ul class="pagination justify-content-center">
+        @if (Model.PageIndex > 0)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-page="./Index" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(Model.PageIndex - 1)">Previous</a>
+            </li>
+        }
+        @for(var i = itemsBackward; i < itemsForward; i++) 
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+
+                @{
+                    var i1 = i;
+                }
+                <a class="page-link" asp-page="./Index" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(i1)">@(i1)</a>
+            </li>
+        }
+            
+        @if (Model.TotalPages > Model.PageIndex + 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-page="./Index" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(Model.PageIndex + 1)">Next</a>
+            </li>
+        }
+    </ul>
+</nav>
+</div>

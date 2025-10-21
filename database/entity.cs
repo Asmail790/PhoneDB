@@ -169,6 +169,10 @@ public class Phone
 
 public class PhoneReview
 {
+    public PhoneReview()
+    {
+        CreateDate = DateTimeOffset.UtcNow;
+    }
     public int User { get; set; }
     public int Id { get; set; }
     public int PhoneId { get; set; }

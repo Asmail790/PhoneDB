@@ -276,7 +276,6 @@ public static class Populater
             Description = description,
             Title = title,
             Score = score,
-            CreateDate = new DateTimeOffset()
             
         };
 

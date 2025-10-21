@@ -1,0 +1,36 @@
+@page
+@model Edit
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@if ( Model.PhoneReview is not null) {
+
+<h1>Edit Phone Review</h1>
+<form method="post"  class="row row-cols-1 g-2 g-lg-3">
+    <div>
+        <label class="form-label"  asp-for="Title"></label>
+        <input  class="form-control" asp-for="Title" />
+    </div>
+    <div>
+        <label class="form-label"  asp-for="Description"></label>
+        <textarea class="form-control" rows="15" asp-for="Description"></textarea>
+    </div>
+    <div>
+        <label  class="form-label" asp-for="Score"></label>
+      <select class="form-select" asp-for="Score">
+            <option selected value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+
+
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
+}
+
+<div class="text-danger" asp-validation-summary="All"></div>

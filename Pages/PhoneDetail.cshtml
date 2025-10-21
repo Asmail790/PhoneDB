@@ -1,26 +1,47 @@
-@page "{Id:int}"
-@inject PhoneDbContext context
+@page
 @using DataBase
-@using Microsoft.EntityFrameworkCore
-@using Phone_1 = PhoneDetail
-@model Phone_1
+@model PhoneDB.Pages.PhoneDetail;
 
 @{
-    var phone = context.Phones
-        .Include(phone => phone.Sections)
-        .ThenInclude(section => section.StringProperties)
-        .ThenInclude(property => property.StringPropertyType)
-        .Include(phone => phone.Sections)
-        .ThenInclude(section => section.SectionType)
-        .Single(phone => phone.Id.Equals(Model.Id));
+    var phone = Model.Phone;
 
-    if (phone == null)
+    if (phone is null)
     {
-        throw new ArgumentException("Phone id not found.");
+        throw new Exception();
+    }
+
+    async Task RenderPropertyRows(List<Property> properties)
+    {
+        @foreach (var property in properties)
+        {
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col">
+                        @(property.PropertyType.Name)
+                    </div>
+                    <div class="col">
+                        @(property.Data.ToString())
+                    </div>
+                </div>
+            </li>
+        }
+    }
+
+
+ 
+    async Task RenderSectionHead(DataBase.Section section)
+    {
+        <li class="list-group-item">
+            <div class="col fs-3 fw-bold">
+                @(section.SectionType.Name)
+            </div>
+        </li>
     }
 }
-<div class="d-flex flex-column gap-2 pb-4">
 
+
+<div class="d-flex flex-column gap-2 pb-4">
+    <h1 class="fs-3 fw-bold">Phone: @(phone.Name)</h1>
 
     <div class="d-flex flex-column flex-sm-row gap-2">
         <div class="flex-grow-1 align-self-stretch d-flex flex-column justify-content-center">
@@ -51,31 +72,30 @@
     </div>
 
 
-
-
-
-    @foreach (var section in phone.Sections)
+    <div class="d-flex flex-column justify gap-5 w-100">
+        @foreach (var pair in Model.PropertiesPerSection)
+        {
+            <div class="card">
+                <ul class="list-group">
+                    @{ await RenderSectionHead(pair.Key); }
+                    @{ await RenderPropertyRows(pair.Value); }
+                </ul>
+            </div>
+        }
+    </div>
+    @if (Model.PhoneReview is not null)
     {
-        var sectionName = section.SectionType.Id;
-
-
-        <div>
-            <h3>@(sectionName)</h3>
-            <table class="table table-bordered">
-                <tbody>
-                @foreach (var property in section.StringProperties)
-                {
-                    var propertyKey = property.StringPropertyType.Id;
-                    var value = property.StringData;
-                    <tr>
-                        <th scope="row">@(propertyKey)</th>
-                        <td>@(value)</td>
-                    </tr>
-                }
-                </tbody>
-            </table>
+        <h1>Your Review</h1>
+        <partial name="_ReviewCard" model="@new  ReviewCard{ PhoneReview = Model.PhoneReview, isUser = false }"/>
+       
+        <div class="d-flex gap-2 justify-content-between">
+        <a class="btn btn-primary"  asp-page="/PhoneReview/Edit" asp-route-phoneReviewId="@(Model.PhoneReview.Id)">Edit</a>
+        <a class="btn btn-danger"  asp-page="/PhoneReview/Delete" asp-route-phoneReviewId="@(Model.PhoneReview.Id)">Delete</a>  
         </div>
     }
-
-    @await Component.InvokeAsync("Reviews", new { phoneId = phone.Id })
-</div>
+    else
+    {
+        <a class="btn btn-primary" asp-page="/PhoneReview/Create" asp-route-phoneId="@(phone.Id)">Create</a>
+    }
+    <a class="btn btn-primary"  asp-page="/PhoneReview/Index" asp-route-phoneId="@(phone.Id)">Phone Reviews from other user</a>
+    </div>

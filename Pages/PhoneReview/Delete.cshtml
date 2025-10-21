@@ -1,0 +1,15 @@
+@page
+@model PhoneDB.Pages.PhoneReviews.Delete
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+@if (Model.PhoneReview is not null)
+{
+<h1>Are sure you want delete your review for @(Model.PhoneReview?.Phone.Name)</h1>
+<form method="post" class="row row-cols-1 g-2 g-lg-3">
+    <button type="submit" class="btn-primary btn">Delete</button>
+</form>
+}
+<div class="text-danger" asp-validation-summary="All"></div>

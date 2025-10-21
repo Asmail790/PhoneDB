@@ -62,9 +62,8 @@
 
   <ItemGroup>
     <Folder Include="host\" />
-    <Folder Include="Pages\PhoneDetails\" />
-    <Folder Include="Pages\PhoneReviews\" />
     <Folder Include="Pages\PhoneSearch\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>

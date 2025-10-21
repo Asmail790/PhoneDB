@@ -1,0 +1,31 @@
+@page
+@model Create
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post" class="row row-cols-1 g-2 g-lg-3">
+    <div>
+        <label asp-for="Title" class="form-label">Title</label>
+        <input type="text" asp-for="Title" class="form-control" placeholder="Write title here"/>
+    </div>
+    <div>
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea  asp-for="Description" class="form-control" placeholder="Write description here" rows="15" ></textarea>
+    </div>
+    <div>
+        <label asp-for="Score" class="form-label">Score</label>
+        
+
+        <select class="form-select" asp-for="Score">
+            <option selected value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+        <button type="submit" class="btn-primary btn">Create</button>
+    <div class="text-danger" asp-validation-summary="All"></div>
+</form>
