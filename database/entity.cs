@@ -164,7 +164,10 @@ public class Phone
     public List<Section> Sections { get; set; } = new();
 
     public List<PhoneReview> Reviews { get; set; } = new();
-    public List<PhoneImageURL> Images { get; set; } = new();
+    
+    public PhoneImage? Thumbnail { get; set; }
+    public  int ThumbnailId { get; set; }
+    [InverseProperty(nameof(Phone))] public List<PhoneImage> Images { get; set; } = new();
 }
 
 public class PhoneReview
@@ -189,13 +192,13 @@ public class PhoneReview
     
 }
 
-public class PhoneImageURL
+public class PhoneImage
 {
     public int Id { get; set; }
-    public required string URL { get; set; }
+    public required string Name { get; set; }
 
     public int PhoneId { get; set; }
-    public required Phone Phone { get; set; }
+    [ForeignKey(nameof(PhoneId))]  public required Phone Phone { get; set; }
 }
 
 public class Image

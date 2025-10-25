@@ -2,18 +2,16 @@
 @model PhoneDB.Pages.Admin.PhoneImage.Create
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Create";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
-</div>
-</body>
-</html>
+
+<form method="post" class="row row-cols-1 g-2" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="form-label" asp-for="Images"></label>
+        <input  class="form-control" asp-for="Images" />
+    </div>
+    <button type="submit" class="btn btn-primary">Uppload</button>
+</form>
+<div class="text-danger" asp-validation-summary="All"></div>

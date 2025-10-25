@@ -1,2 +1,91 @@
 @page
-<p>this hte page</p>
+@model SearchModel
+<h1>Search Phones</h1>
+
+<form method="get">
+    <div class="mb-3">
+        <label class="form-label" asp-for="PhoneId"></label>
+        <input class="form-control" asp-for="PhoneId" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label"  asp-for="PhoneName"></label>
+        <input class="form-control" asp-for="PhoneName" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="PageSize"></label>
+        <input class="form-control" asp-for="PageSize" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="PageIndex"></label>
+        <input class="form-control" asp-for="PageIndex" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<h1>Results</h1>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    @foreach (var phone in Model.Phones)
+    { 
+        var fileName = phone.Thumbnail?.Name ?? "placeholder.png"; 
+    <div class="col">
+           
+                <div class="card">
+                    <div class="card-body">
+                        
+                 
+                    <a asp-page="/PhoneDetail" asp-route-phoneId="@phone.Id" >
+                        <img asp-append-version="true" src="@Utils.Utils.GetClientPathForImage(fileName)" class="card-img-top img-fluid" style="width: 200px; height: 200px;" alt="Phone Thumbnail">
+                    </a>
+                </div>
+                    <div class="card-footer">
+                        <a asp-page="/PhoneDetail" asp-route-phoneId="@phone.Id">
+                            <h5 class="card-title">@phone.Name</h5>
+                        </a>
+                        
+                    </div>
+                </div>
+           
+        </div>
+    }
+</div>
+
+@{
+    var width = 4;
+    var itemsBackward = Math.Max(Model.PageIndex-width,0);
+    var itemsForward = Math.Min(Model.PageIndex+width,Model.TotalPages);
+    var routeParams = new Dictionary<string, string?>()
+    {
+            
+        { "PhoneName", Model?.PhoneName},
+        { "PageSize", Model?.PageSize.ToString() },
+        { "PhoneId", Model?.PhoneId.ToString() },
+    };
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        @if (Model.PageIndex > 0)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-page="./Search" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(Model.PageIndex - 1)">Previous</a>
+            </li>
+        }
+        @for(var i = itemsBackward; i < itemsForward; i++) 
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+
+                @{
+                    var i1 = i;
+                }
+                <a class="page-link" asp-page="./Search" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(i1)">@(i1)</a>
+            </li>
+        }
+            
+        @if (Model.TotalPages > Model.PageIndex + 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-page="./Search" asp-all-route-data=@(routeParams) asp-route-PageIndex="@(Model.PageIndex + 1)">Next</a>
+            </li>
+        }
+    </ul>
+</nav>

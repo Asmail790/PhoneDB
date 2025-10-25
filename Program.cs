@@ -1,4 +1,3 @@
-using System.Text.Json.Nodes;
 using DataBase;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<PhoneDbContext>();
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

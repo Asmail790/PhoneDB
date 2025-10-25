@@ -153,6 +153,7 @@ public class PhoneDetail : PageModel
         var phoneId = PhoneId;
 
         var phone = await this._context.Phones.Where(m => m.Id == phoneId)
+            .Include(phone => phone.Images)
             // StringPropertyTypes type for Section Types
             .Include(phoneItem => phoneItem.Sections)
             .ThenInclude(section => section.SectionType)

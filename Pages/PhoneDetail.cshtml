@@ -28,7 +28,6 @@
     }
 
 
- 
     async Task RenderSectionHead(DataBase.Section section)
     {
         <li class="list-group-item">
@@ -43,35 +42,55 @@
 <div class="d-flex flex-column gap-2 pb-4">
     <h1 class="fs-3 fw-bold">Phone: @(phone.Name)</h1>
 
-    <div class="d-flex flex-column flex-sm-row gap-2">
-        <div class="flex-grow-1 align-self-stretch d-flex flex-column justify-content-center">
-            <img src="https://fdn2.gsmarena.com/vv/bigpic/htc-u24-pro.jpg" class="rounded  w-sm-100" alt="...">
-        </div>
 
 
-        <div class="d-flex flex-wrap gap-2 flex-grow-1 justify-content-center justify-content-sm-start">
-            <img src="https://fdn2.gsmarena.com/vv/bigpic/htc-u24-pro.jpg" style="max-height: 100px; width: 100px;"
-                 class="rounded" alt="...">
-            <img src="https://fdn2.gsmarena.com/vv/bigpic/htc-u24-pro.jpg" style="max-height: 100px; width: 100px;"
-                 class="rounded" alt="...">
-            <img src="https://fdn2.gsmarena.com/vv/bigpic/htc-u24-pro.jpg" style="max-height: 100px; width: 100px;"
-                 class="rounded" alt="...">
-            <img src="https://fdn2.gsmarena.com/vv/bigpic/htc-u24-pro.jpg" style="max-height: 100px; width: 100px;"
-                 class="rounded" alt="...">
-            <img src="https://fdn2.gsmarena.com/vv/bigpic/htc-u24-pro.jpg" style="max-height: 100px; width: 100px;"
-                 class="rounded" alt="...">
-            <img src="https://fdn2.gsmarena.com/vv/bigpic/htc-u24-pro.jpg" style="max-height: 100px; width: 100px;"
-                 class="rounded" alt="...">
-            <img src="https://img4.dhresource.com/webp/m/0x0/f3/albu/ry/s/13/02655e8c-7ff4-4b68-a710-407f4f7d82ef.jpg"
-                 style="max-height: 100px; width: 100px;" class="rounded" alt="...">
-            <img src="https://www.audilo.se/9763-large_default/smartphone-doro-8050.jpg"
-                 style="max-height: 100px; width: 100px;" class="rounded" alt="...">
-            <img src="https://www.audilo.se/img/p/1/2/7/4/4/12744.jpg" style="max-height: 100px; width: 100px;"
-                 class="rounded" alt="...">
-        </div>
+
+    <div class="d-flex flex-wrap gap-2 flex-grow-1 justify-content-center justify-content-sm-start">
+        @foreach (var image in phone.Images)
+        {
+            <div>
+
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            
+                            <img alt="thumbnail for phone @(phone.Name)" src="@(Utils.Utils.GetClientPathForImage(image.Name))"
+                                 class="img-thumbnail rounded" style="width: 200px;height: 200px"/>
+                        </div>
+                        <div class="card-footer">
+                            
+                        </div>
+                        <a class="btn btn-link" data-bs-toggle="modal" data-bs-target="#@(image.Id)">
+                            full size
+                        </a>
+                        
+                        
+
+                    </div>
+                
+            
+                
+                <div class="modal fade" id="@(image.Id)" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog  modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <img alt="image for phone @(phone.Name)"   src="@(Utils.Utils.GetClientPathForImage(image.Name))"
+                                     class="rounded w-100"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
     </div>
 
-
+    <h1>Specs</h1>
     <div class="d-flex flex-column justify gap-5 w-100">
         @foreach (var pair in Model.PropertiesPerSection)
         {
@@ -87,15 +106,16 @@
     {
         <h1>Your Review</h1>
         <partial name="_ReviewCard" model="@new  ReviewCard{ PhoneReview = Model.PhoneReview, isUser = false }"/>
-       
+
         <div class="d-flex gap-2 justify-content-between">
-        <a class="btn btn-primary"  asp-page="/PhoneReview/Edit" asp-route-phoneReviewId="@(Model.PhoneReview.Id)">Edit</a>
-        <a class="btn btn-danger"  asp-page="/PhoneReview/Delete" asp-route-phoneReviewId="@(Model.PhoneReview.Id)">Delete</a>  
+            <a class="btn btn-primary" asp-page="/PhoneReview/Edit" asp-route-phoneReviewId="@(Model.PhoneReview.Id)">Edit</a>
+            <a class="btn btn-danger" asp-page="/PhoneReview/Delete" asp-route-phoneReviewId="@(Model.PhoneReview.Id)">Delete</a>
         </div>
     }
     else
     {
         <a class="btn btn-primary" asp-page="/PhoneReview/Create" asp-route-phoneId="@(phone.Id)">Create</a>
     }
-    <a class="btn btn-primary"  asp-page="/PhoneReview/Index" asp-route-phoneId="@(phone.Id)">Phone Reviews from other user</a>
-    </div>
+    <a class="btn btn-primary" asp-page="/PhoneReview/Index" asp-route-phoneId="@(phone.Id)">Phone Reviews from other
+        user</a>
+</div>

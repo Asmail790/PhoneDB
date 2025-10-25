@@ -43,4 +43,10 @@ public static class Utils
         }
         return obj.ToString();
     }
+
+
+    public static string GetClientPathForImage(string filename)
+    {
+        return $"/images/{filename}";
+    }
 }

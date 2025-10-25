@@ -8,6 +8,36 @@
     ViewData["Title"] = "Edit";
 
 
+    async Task RenderImages(IList<DataBase.PhoneImage> list)
+    {
+        <a asp-page="/Admin/PhoneImage/Create" asp-route-phoneId="@(Model.Phone.Id)">add images</a>
+        <div class="d-flex gap-2 flex-wrap">
+            
+        @foreach (var image in list)
+        {
+        var link = Utils.Utils.GetClientPathForImage(image.Name);
+            <div class="card">
+                <div class="card-body">
+                    <img alt="phone  thumb image" style="width: 200px;height: 200px;" src="@link" class="img-thumbnail "/>
+                </div>
+                <div class="card-footer">
+                    <a asp-page="/Admin/PhoneImage/Delete" class="text-danger" asp-route-phoneImageId="@(image.Id)">delete</a>
+                    
+                    
+                    @if (!image.Id.Equals(image.Phone?.Thumbnail?.Id) )
+                    {
+                    <a asp-page="/Admin/PhoneImage/SetThumbnail"  asp-route-phoneImageId="@(image.Id)">set as thumbnail</a>
+                    } else if (image.Id.Equals(image.Phone?.Thumbnail?.Id))
+                    {
+                        <p>current</p>
+                    }
+                </div>
+            </div>
+            
+        }
+        </div>
+    }
+
     async Task RenderPropertyRows(List<Property> properties)
     {
         @foreach (var property in properties)
@@ -167,6 +197,10 @@
            asp-route-PhoneId="@(Model.Phone.Id)">Edit phone name</a>
         
         
+        @{
+            var images = Model.Phone.Images.ToList();
+            await RenderImages(images);
+        }
         <div class="d-flex flex-column justify gap-5 w-100">
 
             @foreach (var section in Model.Phone.Sections.OrderBy(section => section.SectionType.Name))

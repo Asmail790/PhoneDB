@@ -6,7 +6,7 @@ public class PhoneDbContext : DbContext
     public PhoneDbContext(DbContextOptions<PhoneDbContext> options)
         : base(options)
     {
-        
+
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -14,7 +14,7 @@ public class PhoneDbContext : DbContext
         optionsBuilder.UseSqlite("DataSource=phones.db");
         base.OnConfiguring(optionsBuilder);
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<DateProperty>().Property(e => e.DateTimeOffsetData).HasConversion<long>();
@@ -28,11 +28,11 @@ public class PhoneDbContext : DbContext
     public DbSet<BooleanPropertyType> BooleanPropertyTypes { get; set; }
     public DbSet<DatePropertyType> DatePropertyTypes { get; set; }
     public DbSet<PropertyType> PropertyTypes { get; set; }
-   
+
     public DbSet<SectionType> SectionTypes { get; set; }
 
     public required DbSet<PhoneReview> PhoneReviews { get; set; }
-
+    public required DbSet<PhoneImage> PhoneImages { get; set; }
     public DbSet<Section> Sections { get; set; }
 
     public DbSet<StringProperty> StringProperties { get; set; }
@@ -40,6 +40,6 @@ public class PhoneDbContext : DbContext
     public DbSet<DoubleProperty> DoubleProperties { get; set; }
     public DbSet<BooleanProperty> BooleanProperties { get; set; }
     public DbSet<DateProperty> DateProperties { get; set; }
-    
-  
-} 
+
+
+}

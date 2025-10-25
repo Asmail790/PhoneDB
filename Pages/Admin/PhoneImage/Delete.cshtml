@@ -2,18 +2,22 @@
 @model PhoneDB.Pages.Admin.PhoneImage.Delete
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Delete";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+<div class="container row row-cols-1 g-2">
+
+
+    <h1>Delete Image</h1>
+
+    @if (Model.PhoneImage is not null)
+    {
+        <h1>Are you sure in deleting this image for @(Model.PhoneImage.Phone.Name).</h1>
+        <form method="post" asp-page-handler="Delete" class="mt-4">
+            <input hidden="hidden" asp-for="PhoneImageId"/>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    }
+    <div class="text-danger" asp-validation-summary="All"></div>
 </div>
-</body>
-</html>
